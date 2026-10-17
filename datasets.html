@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Datasets — UrbanProbe</title>
+  <meta name="description" content="Registry of urban datasets and map layers on UrbanProbe, each documented with its geography, time span, schema, provenance, processing, licence, validation, and limitations.">
+  <link rel="canonical" href="https://urbanprobe.com/datasets.html">
+  <meta name="theme-color" content="#183328">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="UrbanProbe">
+  <meta property="og:title" content="Datasets — UrbanProbe">
+  <meta property="og:description" content="Registry of urban datasets and map layers documented with geography, schema, provenance, processing, licence, and limitations.">
+  <meta property="og:url" content="https://urbanprobe.com/datasets.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23183328'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23ccebd8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5793c'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">Urban<i>Probe</i></a>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
+      <nav id="site-nav" aria-label="Primary">
+        <a href="datasets.html" aria-current="page">Datasets</a>
+        <a href="indicators.html">Indicators</a>
+        <a href="methods.html">Methods</a>
+        <a href="standards.html">Standards</a>
+        <a class="cta" href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="page-hero">
+      <div>
+        <div class="eyebrow">Registry 01 / Datasets</div>
+        <h1>Documented datasets.</h1>
+        <p class="lead">Urban datasets and map layers with transparent sources, schemas, licences, and quality notes. A dataset enters this registry with its provenance and processing recorded and its limitations stated.</p>
+      </div>
+      <aside class="note">
+        <strong>Resource standard</strong>
+        <p>Six common fields plus the dataset-specific fields below. Restricted source data is described, never redistributed.</p>
+        <span class="status"><i></i>Open registry</span>
+      </aside>
+    </div>
+
+    <section id="entries">
+      <div class="eyebrow">Entries</div>
+      <h2>Released datasets.</h2>
+      <div data-registry="datasets">
+        <div class="empty">
+          <div>
+            <strong>No public entries yet.</strong>
+            <p>Datasets are listed here once a release meets the standard. Follow the repository for releases, or request a dataset through an issue.</p>
+          </div>
+          <div class="actions">
+            <a class="button" href="https://github.com/Hamsterradcc/urbanprobe.com/issues/new?title=Dataset%20request%3A%20&labels=datasets">Request a dataset</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="card">
+      <div class="eyebrow">Dataset card</div>
+      <h2>What a dataset entry documents.</h2>
+      <p class="intro">In addition to the six common fields, every dataset entry answers the following.</p>
+      <dl class="fields">
+        <div><dt>Spatial coverage &amp; unit</dt><dd>Extent, the spatial unit or raster resolution, and the coordinate reference system.</dd></div>
+        <div><dt>Time span &amp; cadence</dt><dd>Period covered, observation dates, and whether and how the dataset is updated.</dd></div>
+        <div><dt>Variables &amp; schema</dt><dd>Every field with its type, unit, allowed values, and missing-value convention.</dd></div>
+        <div><dt>Source &amp; collection</dt><dd>Original providers, collection method, sampling, and the rights attached to each source.</dd></div>
+        <div><dt>Processing</dt><dd>Cleaning, joining, aggregation, and derivation steps, with the code that performs them.</dd></div>
+        <div><dt>Validation &amp; quality</dt><dd>Completeness, consistency checks, comparison with reference data, and known error rates.</dd></div>
+        <div><dt>Limitations</dt><dd>Coverage gaps, biases, temporal mismatches, and uses the dataset does not support.</dd></div>
+        <div><dt>Artifacts &amp; citation</dt><dd>Download or access route, format, version, licence, and how to cite the dataset.</dd></div>
+      </dl>
+      <div class="actions"><a class="button" href="standards.html#datasets">Dataset standard in full</a></div>
+    </section>
+
+    <section id="related">
+      <div class="eyebrow">Related registries</div>
+      <h2>Datasets feed indicators and are produced by methods.</h2>
+      <div class="grid two">
+        <a class="card" href="indicators.html"><small>02 · INDICATORS</small><span class="more" aria-hidden="true">→</span><h3>Defined indicators</h3><p>Measures computed from datasets in this registry.</p></a>
+        <a class="card" href="methods.html"><small>03 · METHODS</small><span class="more" aria-hidden="true">→</span><h3>Reproducible workflows</h3><p>Code that turns raw observations into these datasets.</p></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 UrbanProbe · A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
+    <div class="links">
+      <a href="https://urbanscience.ai">Urban Science AI Lab</a>
+      <a href="https://xurbanai.com">XUrbanAI</a>
+      <a href="https://citycomputingcollective.com">City Computing Collective</a>
+      <a href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

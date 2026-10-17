@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Indicators — UrbanProbe</title>
+  <meta name="description" content="Registry of spatial indicators on UrbanProbe, each with an explicit definition, inputs, computation steps, spatial unit, validation, sensitivity, and limitations.">
+  <link rel="canonical" href="https://urbanprobe.com/indicators.html">
+  <meta name="theme-color" content="#183328">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="UrbanProbe">
+  <meta property="og:title" content="Indicators — UrbanProbe">
+  <meta property="og:description" content="Registry of spatial indicators with explicit definitions, computation steps, validation, sensitivity, and limitations.">
+  <meta property="og:url" content="https://urbanprobe.com/indicators.html">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23183328'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23ccebd8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5793c'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">Urban<i>Probe</i></a>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
+      <nav id="site-nav" aria-label="Primary">
+        <a href="datasets.html">Datasets</a>
+        <a href="indicators.html" aria-current="page">Indicators</a>
+        <a href="methods.html">Methods</a>
+        <a href="standards.html">Standards</a>
+        <a class="cta" href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="page-hero">
+      <div>
+        <div class="eyebrow">Registry 02 / Indicators</div>
+        <h1>Defined indicators.</h1>
+        <p class="lead">Spatial indicators with explicit definitions, computation steps, validation, and sensitivity. An indicator enters this registry when it states what it measures and how well it does so.</p>
+      </div>
+      <aside class="note">
+        <strong>Resource standard</strong>
+        <p>Six common fields plus the indicator-specific fields below. Every indicator links to the datasets and method it is computed from.</p>
+        <span class="status"><i></i>Open registry</span>
+      </aside>
+    </div>
+
+    <section id="entries">
+      <div class="eyebrow">Entries</div>
+      <h2>Released indicators.</h2>
+      <div data-registry="indicators">
+        <div class="empty">
+          <div>
+            <strong>No public entries yet.</strong>
+            <p>Indicators are listed here once a release meets the standard. Follow the repository for releases, or propose an indicator through an issue.</p>
+          </div>
+          <div class="actions">
+            <a class="button" href="https://github.com/Hamsterradcc/urbanprobe.com/issues/new?title=Indicator%20proposal%3A%20&labels=indicators">Propose an indicator</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="card">
+      <div class="eyebrow">Indicator card</div>
+      <h2>What an indicator entry documents.</h2>
+      <p class="intro">In addition to the six common fields, every indicator entry answers the following.</p>
+      <dl class="fields">
+        <div><dt>Definition &amp; rationale</dt><dd>What the indicator is meant to measure, the concept behind it, and why this operationalisation.</dd></div>
+        <div><dt>Inputs</dt><dd>The datasets it is computed from, with versions, and any parameters or thresholds used.</dd></div>
+        <div><dt>Computation</dt><dd>The formula or algorithm, step by step, with the code that implements it.</dd></div>
+        <div><dt>Spatial unit &amp; scale</dt><dd>The unit the indicator is reported at, and how it behaves when aggregated or disaggregated.</dd></div>
+        <div><dt>Validation</dt><dd>Agreement with ground truth, surveys, or established measures, and the results of those comparisons.</dd></div>
+        <div><dt>Sensitivity &amp; uncertainty</dt><dd>How the indicator responds to parameter choices and input errors, and how uncertainty is reported.</dd></div>
+        <div><dt>Limitations &amp; misuse</dt><dd>Contexts where the indicator is not valid, and interpretations it does not support.</dd></div>
+        <div><dt>Artifacts &amp; citation</dt><dd>Computed values, code, version, licence, and how to cite the indicator.</dd></div>
+      </dl>
+      <div class="actions"><a class="button" href="standards.html#indicators">Indicator standard in full</a></div>
+    </section>
+
+    <section id="related">
+      <div class="eyebrow">Related registries</div>
+      <h2>Indicators are computed from datasets by methods.</h2>
+      <div class="grid two">
+        <a class="card" href="datasets.html"><small>01 · DATASETS</small><span class="more" aria-hidden="true">→</span><h3>Documented datasets</h3><p>The inputs indicators in this registry are computed from.</p></a>
+        <a class="card" href="methods.html"><small>03 · METHODS</small><span class="more" aria-hidden="true">→</span><h3>Reproducible workflows</h3><p>The code that computes and validates these indicators.</p></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 UrbanProbe · A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
+    <div class="links">
+      <a href="https://urbanscience.ai">Urban Science AI Lab</a>
+      <a href="https://xurbanai.com">XUrbanAI</a>
+      <a href="https://citycomputingcollective.com">City Computing Collective</a>
+      <a href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+</body>
+</html>

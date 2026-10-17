@@ -12,7 +12,11 @@
   <meta property="og:title" content="Methods — UrbanProbe">
   <meta property="og:description" content="Registry of reproducible urban research methods documented with inputs, outputs, steps, environment, example data, and validation.">
   <meta property="og:url" content="https://urbanprobe.com/methods.html">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://urbanprobe.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="UrbanProbe: Observe. Measure. Understand. Datasets, indicators, and methods with provenance.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23183328'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23ccebd8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5793c'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -56,7 +60,7 @@
             <p>Methods are listed here once a release meets the standard. Follow the repository for releases, or propose a method through an issue.</p>
           </div>
           <div class="actions">
-            <a class="button" href="https://github.com/Hamsterradcc/urbanprobe.com/issues/new?title=Method%20proposal%3A%20&labels=methods">Propose a method</a>
+            <a class="button" href="https://github.com/Hamsterradcc/urbanprobe.com/issues/new?template=method-entry.yml">Propose a method</a>
           </div>
         </div>
       </div>
@@ -65,17 +69,22 @@
     <section id="card">
       <div class="eyebrow">Method card</div>
       <h2>What a method entry documents.</h2>
-      <p class="intro">In addition to the six common fields, every method entry answers the following.</p>
+      <p class="intro">Every method entry answers the following. The name in code is the key used in the registry data and in the proposal form.</p>
+      <!-- build:card methods -->
       <dl class="fields">
-        <div><dt>Problem &amp; intended users</dt><dd>The urban question the method answers and who is expected to run it.</dd></div>
-        <div><dt>Inputs &amp; outputs</dt><dd>Required inputs with formats and sources, and the outputs produced with their schema.</dd></div>
-        <div><dt>Steps &amp; dependencies</dt><dd>The pipeline in order, with software dependencies and their versions.</dd></div>
-        <div><dt>Installation &amp; runtime</dt><dd>How to set up the environment, expected run time, and hardware requirements.</dd></div>
-        <div><dt>Example &amp; test data</dt><dd>A worked example with small test data that reproduces a published result.</dd></div>
-        <div><dt>Validation</dt><dd>How outputs were checked, including comparison with alternative methods where they exist.</dd></div>
-        <div><dt>Maintenance status</dt><dd>Whether the method is maintained, who maintains it, and known open issues.</dd></div>
-        <div><dt>Artifacts &amp; citation</dt><dd>Repository, release version, licence, and how to cite the method.</dd></div>
+        <div><dt>Problem &amp; intended users <code class="key">problem_users</code></dt><dd>The urban question the method answers and who is expected to run it.</dd></div>
+        <div><dt>Inputs &amp; outputs <code class="key">inputs_outputs</code></dt><dd>Required inputs with formats and sources, and the outputs produced with their schema.</dd></div>
+        <div><dt>Data sources <code class="key">provenance</code></dt><dd>Data the method was developed and tested on, and the rights attached to it.</dd></div>
+        <div><dt>Steps &amp; dependencies <code class="key">processing</code></dt><dd>The pipeline in order, with software dependencies and their versions.</dd></div>
+        <div><dt>Installation &amp; runtime <code class="key">installation_runtime</code></dt><dd>How to set up the environment, expected run time, and hardware requirements.</dd></div>
+        <div><dt>Example &amp; test data <code class="key">example</code></dt><dd>A worked example with small test data that reproduces a published result.</dd></div>
+        <div><dt>Tested geography <code class="key">geography_time</code></dt><dd>Places and periods where the method has been applied and checked.</dd></div>
+        <div><dt>Validation <code class="key">validation</code></dt><dd>How outputs were checked, including comparison with alternative methods where they exist.</dd></div>
+        <div><dt>Maintenance status <code class="key">maintenance</code></dt><dd>Whether the method is maintained, who maintains it, and known open issues.</dd></div>
+        <div><dt>Limitations <code class="key">limitations</code></dt><dd>Known gaps, biases, and misuse risks.</dd></div>
+        <div><dt>Licence, access &amp; citation <code class="key">version</code> <code class="key">license</code> <code class="key">access</code> <code class="key">links</code> <code class="key">citation</code></dt><dd>Repository, release version, licence, and citation.</dd></div>
       </dl>
+      <!-- /build:card methods -->
       <div class="actions"><a class="button" href="standards.html#methods">Method standard in full</a></div>
     </section>
 
@@ -90,12 +99,16 @@
   </main>
 
   <footer>
-    <span>© 2026 UrbanProbe · A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
-    <div class="links">
-      <a href="https://urbanscience.ai">Urban Science AI Lab</a>
-      <a href="https://xurbanai.com">XUrbanAI</a>
-      <a href="https://citycomputingcollective.com">City Computing Collective</a>
-      <a href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+    <p class="network-title" id="network-title">Open urban research network</p>
+    <ul class="network" aria-labelledby="network-title">
+        <li><a href="https://urbanscience.ai"><strong>Urban Science AI Lab</strong><span>Research agenda</span></a></li>
+        <li><div class="here"><strong>UrbanProbe</strong><span>Data, indicators &amp; methods</span><small>This site</small></div></li>
+        <li><a href="https://xurbanai.com"><strong>XUrbanAI</strong><span>Models, agents &amp; benchmarks</span></a></li>
+        <li><a href="https://citycomputingcollective.com"><strong>City Computing Collective</strong><span>Community &amp; collaboration</span></a></li>
+    </ul>
+    <div class="footer-base">
+      <span>&copy; 2026 UrbanProbe &middot; A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
+      <div class="links"><a href="standards.html">Resource standard</a><a href="https://github.com/Hamsterradcc/urbanprobe.com">Repository</a></div>
     </div>
   </footer>
   <script src="assets/site.js"></script>

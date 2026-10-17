@@ -12,7 +12,11 @@
   <meta property="og:title" content="Datasets — UrbanProbe">
   <meta property="og:description" content="Registry of urban datasets and map layers documented with geography, schema, provenance, processing, licence, and limitations.">
   <meta property="og:url" content="https://urbanprobe.com/datasets.html">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://urbanprobe.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="UrbanProbe: Observe. Measure. Understand. Datasets, indicators, and methods with provenance.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23183328'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23ccebd8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5793c'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -56,7 +60,8 @@
             <p>Datasets are listed here once a release meets the standard. Follow the repository for releases, or request a dataset through an issue.</p>
           </div>
           <div class="actions">
-            <a class="button" href="https://github.com/Hamsterradcc/urbanprobe.com/issues/new?title=Dataset%20request%3A%20&labels=datasets">Request a dataset</a>
+            <a class="button primary" href="https://github.com/Hamsterradcc/urbanprobe.com/issues/new?template=dataset-entry.yml">Propose a dataset</a>
+            <a class="button" href="https://github.com/Hamsterradcc/urbanprobe.com/issues/new?template=data-request.yml">Request data</a>
           </div>
         </div>
       </div>
@@ -65,17 +70,18 @@
     <section id="card">
       <div class="eyebrow">Dataset card</div>
       <h2>What a dataset entry documents.</h2>
-      <p class="intro">In addition to the six common fields, every dataset entry answers the following.</p>
+      <p class="intro">Every dataset entry answers the following. The name in code is the key used in the registry data and in the proposal form.</p>
+      <!-- build:card datasets -->
       <dl class="fields">
-        <div><dt>Spatial coverage &amp; unit</dt><dd>Extent, the spatial unit or raster resolution, and the coordinate reference system.</dd></div>
-        <div><dt>Time span &amp; cadence</dt><dd>Period covered, observation dates, and whether and how the dataset is updated.</dd></div>
-        <div><dt>Variables &amp; schema</dt><dd>Every field with its type, unit, allowed values, and missing-value convention.</dd></div>
-        <div><dt>Source &amp; collection</dt><dd>Original providers, collection method, sampling, and the rights attached to each source.</dd></div>
-        <div><dt>Processing</dt><dd>Cleaning, joining, aggregation, and derivation steps, with the code that performs them.</dd></div>
-        <div><dt>Validation &amp; quality</dt><dd>Completeness, consistency checks, comparison with reference data, and known error rates.</dd></div>
-        <div><dt>Limitations</dt><dd>Coverage gaps, biases, temporal mismatches, and uses the dataset does not support.</dd></div>
-        <div><dt>Artifacts &amp; citation</dt><dd>Download or access route, format, version, licence, and how to cite the dataset.</dd></div>
+        <div><dt>Coverage &amp; time <code class="key">geography_time</code></dt><dd>Extent, spatial unit or raster resolution, coordinate reference system, period covered, observation dates, and update cadence.</dd></div>
+        <div><dt>Variables &amp; schema <code class="key">variables_schema</code></dt><dd>Every field with its type, unit, allowed values, and missing-value convention.</dd></div>
+        <div><dt>Source &amp; collection <code class="key">provenance</code></dt><dd>Original providers, collection method, sampling, and the rights attached to each source.</dd></div>
+        <div><dt>Processing <code class="key">processing</code></dt><dd>Cleaning, joining, aggregation, and derivation steps, with the code that performs them.</dd></div>
+        <div><dt>Validation &amp; quality <code class="key">validation</code></dt><dd>Completeness, consistency checks, comparison with reference data, and known error rates.</dd></div>
+        <div><dt>Limitations <code class="key">limitations</code></dt><dd>Coverage gaps, biases, temporal mismatches, and uses the dataset does not support.</dd></div>
+        <div><dt>Licence, access &amp; citation <code class="key">version</code> <code class="key">license</code> <code class="key">access</code> <code class="key">links</code> <code class="key">citation</code></dt><dd>Download or access route, format, version, licence, and citation.</dd></div>
       </dl>
+      <!-- /build:card datasets -->
       <div class="actions"><a class="button" href="standards.html#datasets">Dataset standard in full</a></div>
     </section>
 
@@ -90,12 +96,16 @@
   </main>
 
   <footer>
-    <span>© 2026 UrbanProbe · A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
-    <div class="links">
-      <a href="https://urbanscience.ai">Urban Science AI Lab</a>
-      <a href="https://xurbanai.com">XUrbanAI</a>
-      <a href="https://citycomputingcollective.com">City Computing Collective</a>
-      <a href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+    <p class="network-title" id="network-title">Open urban research network</p>
+    <ul class="network" aria-labelledby="network-title">
+        <li><a href="https://urbanscience.ai"><strong>Urban Science AI Lab</strong><span>Research agenda</span></a></li>
+        <li><div class="here"><strong>UrbanProbe</strong><span>Data, indicators &amp; methods</span><small>This site</small></div></li>
+        <li><a href="https://xurbanai.com"><strong>XUrbanAI</strong><span>Models, agents &amp; benchmarks</span></a></li>
+        <li><a href="https://citycomputingcollective.com"><strong>City Computing Collective</strong><span>Community &amp; collaboration</span></a></li>
+    </ul>
+    <div class="footer-base">
+      <span>&copy; 2026 UrbanProbe &middot; A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
+      <div class="links"><a href="standards.html">Resource standard</a><a href="https://github.com/Hamsterradcc/urbanprobe.com">Repository</a></div>
     </div>
   </footer>
   <script src="assets/site.js"></script>

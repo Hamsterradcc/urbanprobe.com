@@ -12,7 +12,11 @@
   <meta property="og:title" content="Resource Standard — UrbanProbe">
   <meta property="og:description" content="The fields every dataset, indicator, and method must document, the release checklist, and what is not accepted.">
   <meta property="og:url" content="https://urbanprobe.com/standards.html">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://urbanprobe.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="UrbanProbe: Observe. Measure. Understand. Datasets, indicators, and methods with provenance.">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23183328'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23ccebd8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5793c'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="assets/site.css">
 </head>
@@ -48,54 +52,70 @@
     <section id="common">
       <div class="eyebrow">Common fields</div>
       <h2>Required for every resource.</h2>
+      <!-- build:common -->
       <dl class="fields">
-        <div><dt>Geography &amp; time</dt><dd>Spatial extent, spatial unit or resolution, time span, and update cadence.</dd></div>
-        <div><dt>Provenance</dt><dd>Original sources, how they were obtained, and the rights attached to them.</dd></div>
-        <div><dt>Processing</dt><dd>Every step between the source and the released resource, with the code that performs it.</dd></div>
-        <div><dt>Licence &amp; access</dt><dd>The licence of the release, any access conditions, and what may not be redistributed.</dd></div>
-        <div><dt>Validation</dt><dd>How the resource was checked, against what, and the results of those checks.</dd></div>
-        <div><dt>Limitations &amp; citation</dt><dd>Known gaps, biases, and misuse risks, with a version and how to cite the resource.</dd></div>
+        <div><dt>Geography &amp; time <code class="key">geography_time</code></dt><dd>Spatial extent, spatial unit or resolution, time span, and update cadence.</dd></div>
+        <div><dt>Provenance <code class="key">provenance</code></dt><dd>Original sources, how they were obtained, and the rights attached to them.</dd></div>
+        <div><dt>Processing <code class="key">processing</code></dt><dd>Every step between the source and the released resource, with the code that performs it.</dd></div>
+        <div><dt>Validation <code class="key">validation</code></dt><dd>How the resource was checked, against what, and the results of those checks.</dd></div>
+        <div><dt>Limitations <code class="key">limitations</code></dt><dd>Known gaps, biases, and misuse risks.</dd></div>
+        <div><dt>Licence, access &amp; citation <code class="key">version</code> <code class="key">license</code> <code class="key">access</code> <code class="key">links</code> <code class="key">citation</code></dt><dd>The licence of the release, any access conditions, what may not be redistributed, a version, and how to cite the resource.</dd></div>
       </dl>
+      <!-- /build:common -->
     </section>
 
     <section id="datasets">
       <div class="eyebrow">Registry 01</div>
       <h2>Dataset fields.</h2>
+      <!-- build:rules datasets -->
       <div class="rules">
-        <div class="rule"><strong>Spatial coverage &amp; unit</strong><span>Extent, the spatial unit or raster resolution, and the coordinate reference system.</span></div>
-        <div class="rule"><strong>Time span &amp; cadence</strong><span>Period covered, observation dates, and whether and how the dataset is updated.</span></div>
-        <div class="rule"><strong>Variables &amp; schema</strong><span>Every field with its type, unit, allowed values, and missing-value convention.</span></div>
-        <div class="rule"><strong>Source &amp; collection</strong><span>Original providers, collection method, sampling, and the rights attached to each source.</span></div>
-        <div class="rule"><strong>Validation &amp; quality</strong><span>Completeness, consistency checks, comparison with reference data, and known error rates.</span></div>
-        <div class="rule"><strong>Artifacts</strong><span>Download or access route, format, version, licence, and citation.</span></div>
+        <div class="rule"><strong>Coverage &amp; time <code class="key">geography_time</code></strong><span>Extent, spatial unit or raster resolution, coordinate reference system, period covered, observation dates, and update cadence.</span></div>
+        <div class="rule"><strong>Variables &amp; schema <code class="key">variables_schema</code></strong><span>Every field with its type, unit, allowed values, and missing-value convention.</span></div>
+        <div class="rule"><strong>Source &amp; collection <code class="key">provenance</code></strong><span>Original providers, collection method, sampling, and the rights attached to each source.</span></div>
+        <div class="rule"><strong>Processing <code class="key">processing</code></strong><span>Cleaning, joining, aggregation, and derivation steps, with the code that performs them.</span></div>
+        <div class="rule"><strong>Validation &amp; quality <code class="key">validation</code></strong><span>Completeness, consistency checks, comparison with reference data, and known error rates.</span></div>
+        <div class="rule"><strong>Limitations <code class="key">limitations</code></strong><span>Coverage gaps, biases, temporal mismatches, and uses the dataset does not support.</span></div>
+        <div class="rule"><strong>Licence, access &amp; citation <code class="key">version</code> <code class="key">license</code> <code class="key">access</code> <code class="key">links</code> <code class="key">citation</code></strong><span>Download or access route, format, version, licence, and citation.</span></div>
       </div>
+      <!-- /build:rules datasets -->
     </section>
 
     <section id="indicators">
       <div class="eyebrow">Registry 02</div>
       <h2>Indicator fields.</h2>
+      <!-- build:rules indicators -->
       <div class="rules">
-        <div class="rule"><strong>Definition &amp; rationale</strong><span>What the indicator is meant to measure, the concept behind it, and why this operationalisation.</span></div>
-        <div class="rule"><strong>Inputs</strong><span>The datasets it is computed from, with versions, and any parameters or thresholds used.</span></div>
-        <div class="rule"><strong>Computation</strong><span>The formula or algorithm, step by step, with the code that implements it.</span></div>
-        <div class="rule"><strong>Spatial unit &amp; scale</strong><span>The unit the indicator is reported at, and how it behaves when aggregated or disaggregated.</span></div>
-        <div class="rule"><strong>Sensitivity &amp; uncertainty</strong><span>How the indicator responds to parameter choices and input errors, and how uncertainty is reported.</span></div>
-        <div class="rule"><strong>Artifacts</strong><span>Computed values, code, version, licence, and citation.</span></div>
+        <div class="rule"><strong>Definition &amp; rationale <code class="key">definition</code></strong><span>What the indicator is meant to measure, the concept behind it, and why this operationalisation.</span></div>
+        <div class="rule"><strong>Inputs <code class="key">provenance</code></strong><span>The datasets it is computed from, with versions, and any parameters or thresholds used.</span></div>
+        <div class="rule"><strong>Computation <code class="key">processing</code></strong><span>The formula or algorithm, step by step, with the code that implements it.</span></div>
+        <div class="rule"><strong>Spatial unit &amp; scale <code class="key">spatial_scale</code></strong><span>The unit the indicator is reported at, and how it behaves when aggregated or disaggregated.</span></div>
+        <div class="rule"><strong>Coverage &amp; time <code class="key">geography_time</code></strong><span>Places and periods for which values are released.</span></div>
+        <div class="rule"><strong>Validation <code class="key">validation</code></strong><span>Agreement with ground truth, surveys, or established measures, and the results of those comparisons.</span></div>
+        <div class="rule"><strong>Sensitivity &amp; uncertainty <code class="key">sensitivity</code></strong><span>How the indicator responds to parameter choices and input errors, and how uncertainty is reported.</span></div>
+        <div class="rule"><strong>Limitations &amp; misuse <code class="key">limitations</code></strong><span>Contexts where the indicator is not valid, and interpretations it does not support.</span></div>
+        <div class="rule"><strong>Licence, access &amp; citation <code class="key">version</code> <code class="key">license</code> <code class="key">access</code> <code class="key">links</code> <code class="key">citation</code></strong><span>Computed values, code, version, licence, and citation.</span></div>
       </div>
+      <!-- /build:rules indicators -->
     </section>
 
     <section id="methods">
       <div class="eyebrow">Registry 03</div>
       <h2>Method fields.</h2>
+      <!-- build:rules methods -->
       <div class="rules">
-        <div class="rule"><strong>Problem &amp; intended users</strong><span>The urban question the method answers and who is expected to run it.</span></div>
-        <div class="rule"><strong>Inputs &amp; outputs</strong><span>Required inputs with formats and sources, and the outputs produced with their schema.</span></div>
-        <div class="rule"><strong>Steps &amp; dependencies</strong><span>The pipeline in order, with software dependencies and their versions.</span></div>
-        <div class="rule"><strong>Installation &amp; runtime</strong><span>How to set up the environment, expected run time, and hardware requirements.</span></div>
-        <div class="rule"><strong>Example &amp; test data</strong><span>A worked example with small test data that reproduces a published result.</span></div>
-        <div class="rule"><strong>Maintenance status</strong><span>Whether the method is maintained, who maintains it, and known open issues.</span></div>
-        <div class="rule"><strong>Artifacts</strong><span>Repository, release version, licence, and citation.</span></div>
+        <div class="rule"><strong>Problem &amp; intended users <code class="key">problem_users</code></strong><span>The urban question the method answers and who is expected to run it.</span></div>
+        <div class="rule"><strong>Inputs &amp; outputs <code class="key">inputs_outputs</code></strong><span>Required inputs with formats and sources, and the outputs produced with their schema.</span></div>
+        <div class="rule"><strong>Data sources <code class="key">provenance</code></strong><span>Data the method was developed and tested on, and the rights attached to it.</span></div>
+        <div class="rule"><strong>Steps &amp; dependencies <code class="key">processing</code></strong><span>The pipeline in order, with software dependencies and their versions.</span></div>
+        <div class="rule"><strong>Installation &amp; runtime <code class="key">installation_runtime</code></strong><span>How to set up the environment, expected run time, and hardware requirements.</span></div>
+        <div class="rule"><strong>Example &amp; test data <code class="key">example</code></strong><span>A worked example with small test data that reproduces a published result.</span></div>
+        <div class="rule"><strong>Tested geography <code class="key">geography_time</code></strong><span>Places and periods where the method has been applied and checked.</span></div>
+        <div class="rule"><strong>Validation <code class="key">validation</code></strong><span>How outputs were checked, including comparison with alternative methods where they exist.</span></div>
+        <div class="rule"><strong>Maintenance status <code class="key">maintenance</code></strong><span>Whether the method is maintained, who maintains it, and known open issues.</span></div>
+        <div class="rule"><strong>Limitations <code class="key">limitations</code></strong><span>Known gaps, biases, and misuse risks.</span></div>
+        <div class="rule"><strong>Licence, access &amp; citation <code class="key">version</code> <code class="key">license</code> <code class="key">access</code> <code class="key">links</code> <code class="key">citation</code></strong><span>Repository, release version, licence, and citation.</span></div>
       </div>
+      <!-- /build:rules methods -->
     </section>
 
     <section id="release">
@@ -144,12 +164,16 @@
   </main>
 
   <footer>
-    <span>© 2026 UrbanProbe · A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
-    <div class="links">
-      <a href="https://urbanscience.ai">Urban Science AI Lab</a>
-      <a href="https://xurbanai.com">XUrbanAI</a>
-      <a href="https://citycomputingcollective.com">City Computing Collective</a>
-      <a href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+    <p class="network-title" id="network-title">Open urban research network</p>
+    <ul class="network" aria-labelledby="network-title">
+        <li><a href="https://urbanscience.ai"><strong>Urban Science AI Lab</strong><span>Research agenda</span></a></li>
+        <li><div class="here"><strong>UrbanProbe</strong><span>Data, indicators &amp; methods</span><small>This site</small></div></li>
+        <li><a href="https://xurbanai.com"><strong>XUrbanAI</strong><span>Models, agents &amp; benchmarks</span></a></li>
+        <li><a href="https://citycomputingcollective.com"><strong>City Computing Collective</strong><span>Community &amp; collaboration</span></a></li>
+    </ul>
+    <div class="footer-base">
+      <span>&copy; 2026 UrbanProbe &middot; A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
+      <div class="links"><a href="standards.html">Resource standard</a><a href="https://github.com/Hamsterradcc/urbanprobe.com">Repository</a></div>
     </div>
   </footer>
   <script src="assets/site.js"></script>

@@ -9,13 +9,26 @@
       "status": "released",
       "version": "1.0.0",
       "released": "2026-01-15",
-      "authors": ["Author One", "Author Two"],
-      "tags": ["example", "census tracts", "2015–2024"],
+      "authors": [
+        "Author One",
+        "Author Two"
+      ],
+      "tags": [
+        "example",
+        "census tracts",
+        "2015–2024"
+      ],
       "license": "CC BY 4.0",
       "access": "Open download. Source imagery is not redistributed; derived values only.",
       "links": [
-        { "label": "Download", "href": "https://github.com/Hamsterradcc/urbanprobe.com" },
-        { "label": "Resource standard", "href": "standards.html#datasets" }
+        {
+          "label": "Download",
+          "href": "https://github.com/Hamsterradcc/urbanprobe.com"
+        },
+        {
+          "label": "Resource standard",
+          "href": "standards.html#datasets"
+        }
       ],
       "citation": "Author One and Author Two (2026). Example dataset entry, version 1.0.0. UrbanProbe. https://urbanprobe.com/entry.html?registry=datasets&id=example-dataset",
       "card": {
@@ -25,7 +38,136 @@
         "processing": "Describe cleaning, joining, aggregation, and derivation in order, and link the script that performs each step.",
         "validation": "Report completeness and consistency checks, comparison with reference data, and known error rates.",
         "limitations": "Describe coverage gaps, biases, mismatches in time between sources, and uses the dataset does not support."
-      }
+      },
+      "themes": [
+        "climate",
+        "health-equity",
+        "sensing"
+      ],
+      "cities": [
+        "Example City A",
+        "Example City B"
+      ],
+      "spatial_unit": "Census tract",
+      "period": "2015–2024",
+      "formats": [
+        "CSV",
+        "GeoParquet"
+      ],
+      "doi": "10.5281/zenodo.0000001",
+      "variables": [
+        {
+          "name": "tract_id",
+          "type": "string",
+          "description": "Census tract identifier."
+        },
+        {
+          "name": "city",
+          "type": "category",
+          "description": "City the tract belongs to."
+        },
+        {
+          "name": "year",
+          "type": "integer",
+          "description": "Observation year."
+        },
+        {
+          "name": "canopy_pct",
+          "type": "number",
+          "unit": "%",
+          "description": "Share of tract area under tree canopy."
+        },
+        {
+          "name": "lst_c",
+          "type": "number",
+          "unit": "°C",
+          "description": "Mean summer land-surface temperature."
+        },
+        {
+          "name": "pop_density",
+          "type": "number",
+          "unit": "people/km²",
+          "description": "Residents per square kilometre."
+        }
+      ],
+      "preview": "data/examples/sample.csv",
+      "distributions": [
+        {
+          "format": "CSV",
+          "href": "data/examples/sample.csv",
+          "label": "Sample (example rows)",
+          "size": "2 KB"
+        },
+        {
+          "format": "GeoParquet",
+          "href": "https://github.com/Hamsterradcc/urbanprobe.com",
+          "label": "Full release",
+          "size": "48 MB"
+        }
+      ],
+      "changelog": [
+        {
+          "version": "1.0.0",
+          "date": "2026-01-15",
+          "note": "First release."
+        }
+      ]
+    },
+    {
+      "id": "example-dataset-streets",
+      "title": "Example street segment dataset entry",
+      "summary": "A second placeholder dataset at street-segment level, used to show filters.",
+      "status": "released",
+      "version": "0.3.0",
+      "released": "2026-04-10",
+      "authors": [
+        "Author Three"
+      ],
+      "tags": [
+        "example",
+        "census tracts",
+        "2015–2024"
+      ],
+      "license": "ODbL-1.0",
+      "access": "Open download. Source imagery is not redistributed; derived values only.",
+      "links": [
+        {
+          "label": "Download",
+          "href": "https://github.com/Hamsterradcc/urbanprobe.com"
+        },
+        {
+          "label": "Resource standard",
+          "href": "standards.html#datasets"
+        }
+      ],
+      "citation": "Author Three (2026). Example street segment dataset entry, version 0.3.0. UrbanProbe.",
+      "card": {
+        "geography_time": "Give the extent, the spatial unit or raster resolution, the coordinate reference system, the period covered, and how often the data is updated.",
+        "variables_schema": "List every field with its type, unit, allowed values, and how missing values are coded.",
+        "provenance": "Name each original provider, how the data was collected or obtained, the sampling, and the rights attached to each source.",
+        "processing": "Describe cleaning, joining, aggregation, and derivation in order, and link the script that performs each step.",
+        "validation": "Report completeness and consistency checks, comparison with reference data, and known error rates.",
+        "limitations": "Describe coverage gaps, biases, mismatches in time between sources, and uses the dataset does not support."
+      },
+      "themes": [
+        "mobility",
+        "built-environment"
+      ],
+      "cities": [
+        "Example City C"
+      ],
+      "spatial_unit": "Street segment",
+      "period": "2023",
+      "formats": [
+        "GeoJSON"
+      ],
+      "changelog": [
+        {
+          "version": "0.3.0",
+          "date": "2026-04-10",
+          "note": "First public release."
+        }
+      ]
     }
   ],
   "indicators": [
@@ -36,12 +178,23 @@
       "status": "released",
       "version": "2.0.0",
       "released": "2026-02-10",
-      "authors": ["Author One"],
-      "tags": ["example", "street segment"],
+      "authors": [
+        "Author One"
+      ],
+      "tags": [
+        "example",
+        "street segment"
+      ],
       "license": "CC BY 4.0 (values), MIT (code)",
       "links": [
-        { "label": "Values", "href": "https://github.com/Hamsterradcc/urbanprobe.com" },
-        { "label": "First version", "href": "entry.html?registry=indicators&id=example-indicator-v1&src=example" }
+        {
+          "label": "Values",
+          "href": "https://github.com/Hamsterradcc/urbanprobe.com"
+        },
+        {
+          "label": "First version",
+          "href": "entry.html?registry=indicators&id=example-indicator-v1&src=example"
+        }
       ],
       "citation": "Author One (2026). Example indicator entry, version 2.0.0. UrbanProbe.",
       "card": {
@@ -53,7 +206,41 @@
         "validation": "Report agreement with ground truth, surveys, or established measures.",
         "sensitivity": "Show how values change with parameter choices and input errors, and how uncertainty is reported.",
         "limitations": "Name contexts where the indicator is not valid, and interpretations it does not support."
-      }
+      },
+      "themes": [
+        "climate",
+        "health-equity"
+      ],
+      "cities": [
+        "Example City A",
+        "Example City B"
+      ],
+      "spatial_unit": "Census tract",
+      "period": "2015–2024",
+      "related": [
+        {
+          "registry": "datasets",
+          "id": "example-dataset",
+          "relation": "derived-from"
+        },
+        {
+          "registry": "methods",
+          "id": "example-method",
+          "relation": "computed-by"
+        }
+      ],
+      "changelog": [
+        {
+          "version": "1.0.0",
+          "date": "2025-11-01",
+          "note": "First release."
+        },
+        {
+          "version": "2.0.0",
+          "date": "2026-02-10",
+          "note": "Switched to summer-mean temperature; values are not comparable with 1.x."
+        }
+      ]
     },
     {
       "id": "example-indicator-v1",
@@ -62,7 +249,10 @@
       "status": "deprecated",
       "version": "1.0.0",
       "released": "2025-11-01",
-      "replaced_by": "example-indicator"
+      "replaced_by": "example-indicator",
+      "themes": [
+        "climate"
+      ]
     }
   ],
   "methods": [
@@ -74,10 +264,21 @@
       "version": "0.4.1",
       "released": "2026-03-05",
       "updated": "2026-04-02",
-      "authors": ["Author One", "Author Two"],
-      "tags": ["example", "python"],
+      "authors": [
+        "Author One",
+        "Author Two"
+      ],
+      "tags": [
+        "example",
+        "python"
+      ],
       "license": "MIT",
-      "links": [{ "label": "Repository", "href": "https://github.com/Hamsterradcc/urbanprobe.com" }],
+      "links": [
+        {
+          "label": "Repository",
+          "href": "https://github.com/Hamsterradcc/urbanprobe.com"
+        }
+      ],
       "citation": "Author One and Author Two (2026). Example method entry, version 0.4.1. UrbanProbe.",
       "card": {
         "problem_users": "State the urban question the method answers and who is expected to run it.",
@@ -90,7 +291,34 @@
         "validation": "Explain how outputs were checked, including comparison with alternative methods.",
         "maintenance": "Say whether the method is maintained, by whom, and link the open issues.",
         "limitations": "Describe where the method breaks down and what it should not be used for."
-      }
+      },
+      "themes": [
+        "sensing",
+        "climate"
+      ],
+      "formats": [
+        "Python"
+      ],
+      "usage": "pip install example-method\nexample-method run --input tracts.gpkg --year 2024 --out canopy.parquet",
+      "related": [
+        {
+          "registry": "datasets",
+          "id": "example-dataset",
+          "relation": "uses"
+        }
+      ],
+      "changelog": [
+        {
+          "version": "0.4.0",
+          "date": "2026-03-05",
+          "note": "First release."
+        },
+        {
+          "version": "0.4.1",
+          "date": "2026-04-02",
+          "note": "Fixes reprojection of rasters that cross a UTM zone."
+        }
+      ]
     }
   ]
 }

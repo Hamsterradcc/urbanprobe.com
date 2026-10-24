@@ -8,6 +8,7 @@ data/schema.json is the single source of truth for the entry standard. This scri
         <!-- build:card <registry> -->   ... <!-- /build:card <registry> -->
         <!-- build:rules <registry> -->  ... <!-- /build:rules <registry> -->
   * one GitHub issue form per registry in .github/ISSUE_TEMPLATE/
+  * feeds/releases.xml, an RSS feed of released entries
 
 Usage:
     python scripts/build.py           # rewrite generated content
@@ -135,6 +136,17 @@ def issue_form(registry):
     if "access" in SITE["artifacts"]["keys"]:
         field("textarea", "access", "Access conditions", "Any conditions on access, and what may not be redistributed. Write 'None' if open.", False)
     field("textarea", "citation", "Citation", "How the entry should be cited.", True)
+    if SCHEMA.get("x-themes"):
+        out.extend([
+            "  - type: dropdown",
+            "    id: themes",
+            "    attributes:",
+            f"      label: {q('Research themes')}",
+            f"      description: {q('Themes shared across the network. They place the entry on the matching theme hubs of the City Computing Collective.')}",
+            "      multiple: true",
+            "      options:",
+        ] + [f"        - {q(t['label'])}" for t in SCHEMA["x-themes"]] + ["    validations:", "      required: false"])
+    field("input", "cities", "Cities or regions", "Where the work was built or tested, separated by commas.", False)
     for key, title, desc in card_fields(registry):
         field("textarea", key, title, desc, True)
     out.extend([
@@ -151,6 +163,36 @@ def issue_form(registry):
     return "\n".join(out) + "\n"
 
 
+def releases_feed():
+    """RSS of released entries, newest first (feeds/releases.xml)."""
+    import email.utils
+    import datetime as dt
+    data = json.loads((ROOT / "data" / "registry.json").read_text(encoding="utf-8"))
+    items = []
+    for r in REGISTRIES:
+        for e in data.get(r["key"], []) or []:
+            if e.get("status") != "released":
+                continue
+            when = e.get("updated") or e.get("released")
+            url = e.get("url") or f"{SITE['url']}/entry.html?registry={r['key']}&id={e['id']}"
+            if not url.startswith("http"):
+                url = f"{SITE['url']}/{url}"
+            items.append((when, r, e, url))
+    items.sort(key=lambda x: x[0], reverse=True)
+    def item(when, r, e, url):
+        pub = email.utils.format_datetime(dt.datetime.fromisoformat(when + "T12:00:00+00:00"))
+        cats = "".join(f"<category>{html.escape(c)}</category>" for c in [r["label"]] + list(e.get("tags", [])))
+        title = f"{e['title']} v{e['version']}" if e.get("version") else e["title"]
+        return (f"<item><title>{html.escape(title)}</title><link>{html.escape(url)}</link><guid isPermaLink=\"false\">{SITE['name'].lower()}-{r['key']}-{e['id']}-{e.get('version', '')}</guid>"
+                f"<pubDate>{pub}</pubDate>{cats}<description>{html.escape(e.get('summary', ''))}</description></item>")
+    body = "\n".join(item(*x) for x in items[:50])
+    return (f'<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n'
+            f"<title>{html.escape(SITE['name'])} releases</title><link>{SITE['url']}/</link>"
+            f"<description>New and updated entries on {html.escape(SITE['name'])}.</description><language>en</language>\n"
+            f'<atom:link href="{SITE["url"]}/feeds/releases.xml" rel="self" type="application/rss+xml"/>\n'
+            + (body + "\n" if body else "") + "</channel>\n</rss>\n")
+
+
 def targets():
     """Yield (path, expected_text) for every generated file."""
     pages = set(SITE.get("pages_with_common", [])) | {SITE["standard"]} | {r["page"] for r in REGISTRIES}
@@ -161,6 +203,7 @@ def targets():
     forms = ROOT / ".github" / "ISSUE_TEMPLATE"
     for r in REGISTRIES:
         yield forms / r["template"], issue_form(r)
+    yield ROOT / "feeds" / "releases.xml", releases_feed()
 
 
 def main():

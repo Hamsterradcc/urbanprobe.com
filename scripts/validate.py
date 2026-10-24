@@ -5,7 +5,8 @@ Checks data/registry.json and every file in data/examples/:
   * JSON Schema validation (draft 2020-12), including date formats
   * unique ids across all registries in a file
   * released entries fill every card field, and no field is a placeholder ("TBD", "to follow", ...)
-  * replaced_by points at an existing id; local card URLs exist in the repository
+  * replaced_by, related entries, and leaderboard system references point at existing entries
+  * leaderboard scores use declared metrics; changelogs list the current version; local previews exist
 
 Usage:
     python scripts/validate.py
@@ -67,11 +68,36 @@ def main():
                 if url and not re.match(r"^https?://", url) and not (ROOT / url.split("#")[0].split("?")[0]).exists():
                     problems.append(f"{where}: url '{url}' does not exist in the repository")
 
+        keyed = {(r["key"], e.get("id")) for r in registries for e in (data.get(r["key"], []) or []) if isinstance(e, dict)}
         for r in registries:
             for i, entry in enumerate(data.get(r["key"], []) or []):
-                target = isinstance(entry, dict) and entry.get("replaced_by")
+                if not isinstance(entry, dict):
+                    continue
+                where = f"{rel}: {r['key']}/{i}"
+                target = entry.get("replaced_by")
                 if target and target not in ids:
-                    problems.append(f"{rel}: {r['key']}/{i}: replaced_by '{target}' is not an id in this file")
+                    problems.append(f"{where}: replaced_by '{target}' is not an id in this file")
+                for link in entry.get("related", []) or []:
+                    if not link.get("site") and (link.get("registry"), link.get("id")) not in keyed:
+                        problems.append(f"{where}: related entry {link.get('registry')}/{link.get('id')} does not exist")
+                log = entry.get("changelog") or []
+                if log and entry.get("version") and entry["version"] not in [c.get("version") for c in log]:
+                    problems.append(f"{where}: changelog does not list the current version {entry['version']}")
+                preview = entry.get("preview")
+                if preview and not preview.startswith("https://") and not (ROOT / preview).exists():
+                    problems.append(f"{where}: preview file '{preview}' does not exist")
+                board = entry.get("leaderboard")
+                if board:
+                    metric_keys = [m["key"] for m in board.get("metrics", [])]
+                    if len(metric_keys) != len(set(metric_keys)):
+                        problems.append(f"{where}: leaderboard metric keys are not unique")
+                    for j, res in enumerate(board.get("results", [])):
+                        unknown = set(res.get("scores", {})) - set(metric_keys)
+                        if unknown:
+                            problems.append(f"{where}: leaderboard result {j} scores unknown metrics {sorted(unknown)}")
+                        ref = res.get("system_ref")
+                        if ref and not ref.get("site") and (ref.get("registry"), ref.get("id")) not in keyed:
+                            problems.append(f"{where}: leaderboard result {j} refers to missing entry {ref.get('registry')}/{ref.get('id')}")
 
     if problems:
         print(f"{len(problems)} problem(s):")

@@ -57,6 +57,30 @@ body:
       description: "How the entry should be cited."
     validations:
       required: true
+  - type: dropdown
+    id: themes
+    attributes:
+      label: "Research themes"
+      description: "Themes shared across the network. They place the entry on the matching theme hubs of the City Computing Collective."
+      multiple: true
+      options:
+        - "Mobility & Transportation"
+        - "Built Environment & Land Use"
+        - "Housing & Urban Economics"
+        - "Climate, Energy & Resilience"
+        - "Health, Equity & Accessibility"
+        - "Urban Sensing & Spatial Data"
+        - "Governance & Participation"
+        - "Urban AI & Simulation"
+    validations:
+      required: false
+  - type: input
+    id: cities
+    attributes:
+      label: "Cities or regions"
+      description: "Where the work was built or tested, separated by commas."
+    validations:
+      required: false
   - type: textarea
     id: geography_time
     attributes:

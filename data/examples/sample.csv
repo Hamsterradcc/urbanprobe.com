@@ -1,0 +1,25 @@
+tract_id,city,year,canopy_pct,lst_c,pop_density
+T1000,Example City A,2023,17.6,36.1,11564
+T1001,Example City A,2024,6.0,40.6,2442
+T1002,Example City A,2024,19.4,35.4,9213
+T1003,Example City A,2023,13.0,36.9,7751
+T1004,Example City A,2024,6.9,38.3,7855
+T1005,Example City A,2024,6.5,39.8,4557
+T1006,Example City A,2023,30.5,34.5,1913
+T1007,Example City A,2024,28.2,34.5,4522
+T1008,Example City A,2024,6.0,40.8,5644
+T1009,Example City A,2023,,34.8,9758
+T1010,Example City A,2024,8.9,38.5,14271
+T1011,Example City A,2024,32.6,32.6,10258
+T1012,Example City A,2023,30.8,33.8,9874
+T1013,Example City A,2024,33.9,33.7,11041
+T1014,Example City B,2024,12.7,38.7,7905
+T1015,Example City B,2023,36.6,32.8,8324
+T1016,Example City B,2024,19.2,36.0,3845
+T1017,Example City B,2024,33.4,32.9,10311
+T1018,Example City B,2023,16.6,37.3,6527
+T1019,Example City B,2024,34.6,32.8,2099
+T1020,Example City B,2024,9.0,38.8,13304
+T1021,Example City B,2023,18.4,38.3,7809
+T1022,Example City B,2024,5.6,40.3,13426
+T1023,Example City B,2024,27.4,35.8,14307

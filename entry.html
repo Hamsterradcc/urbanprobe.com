@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Entry — UrbanProbe</title>
+  <meta name="description" content="A registry resource on UrbanProbe, with its card, release details, and citation.">
+  <meta name="theme-color" content="#183328">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="UrbanProbe">
+  <meta property="og:title" content="Registry resource — UrbanProbe">
+  <meta property="og:description" content="A registry resource on UrbanProbe, with its card, release details, and citation.">
+  <meta property="og:image" content="https://urbanprobe.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="UrbanProbe: Observe. Measure. Understand. Datasets, indicators, and methods with provenance.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23183328'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23ccebd8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5793c'/%3E%3C/svg%3E">
+  <link rel="alternate" type="application/rss+xml" title="UrbanProbe releases" href="feeds/releases.xml">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">Urban<i>Probe</i></a>
+      <button class="nav-search" type="button" data-palette hidden aria-label="Search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><span>Search</span><kbd>Ctrl K</kbd></button>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
+      <nav id="site-nav" aria-label="Primary">
+        <a href="datasets.html">Datasets</a>
+        <a href="indicators.html">Indicators</a>
+        <a href="methods.html">Methods</a>
+        <a href="standards.html">Standards</a>
+        <a class="cta" href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" data-entry>
+    <div class="banner" data-slot="banner" hidden>Example entry, shown to preview the layout. It is not a real release.</div>
+    <div class="page-hero">
+      <div>
+        <div class="eyebrow" data-slot="eyebrow">Registry entry</div>
+        <h1 data-slot="title">Loading entry…</h1>
+        <p class="lead" data-slot="summary">Entries are rendered from the registry data in the repository.</p>
+        <div class="facts" data-slot="facts"></div>
+        <div class="entry-tags" data-slot="tags"></div>
+        <div class="actions" data-slot="links"></div>
+      </div>
+      <aside class="note" data-slot="release">
+        <strong>Release</strong>
+        <dl class="meta" data-slot="meta"></dl>
+        <span class="status" data-slot="status" hidden><i></i><b></b></span>
+      </aside>
+    </div>
+    <div class="notice" data-slot="deprecated" hidden></div>
+    <nav class="entry-toc" data-slot="toc" aria-label="On this page" hidden></nav>
+    <div data-slot="sections"></div>
+    <noscript><section><p class="intro">Entry pages are rendered from data/registry.json and need JavaScript. The same data is readable in the repository.</p></section></noscript>
+  </main>
+
+  <footer>
+    <p class="network-title" id="network-title">Open urban research network</p>
+    <ul class="network" aria-labelledby="network-title">
+        <li><a href="https://urbanscience.ai"><strong>Urban Science AI Lab</strong><span>Research agenda</span></a></li>
+        <li><div class="here"><strong>UrbanProbe</strong><span>Data, indicators &amp; methods</span><small>This site</small></div></li>
+        <li><a href="https://xurbanai.com"><strong>XUrbanAI</strong><span>Models, agents &amp; benchmarks</span></a></li>
+        <li><a href="https://citycomputingcollective.com"><strong>City Computing Collective</strong><span>Community &amp; collaboration</span></a></li>
+    </ul>
+    <div class="footer-base">
+      <span>&copy; 2026 UrbanProbe &middot; A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
+      <div class="links"><a href="standards.html">Resource standard</a><a href="https://github.com/Hamsterradcc/urbanprobe.com">Repository</a></div>
+    </div>
+  </footer>
+  <script src="assets/site.js"></script>
+  <script src="assets/palette.js"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Read the resource standard
+    url: https://urbanprobe.com/standards.html
+    about: Every field a proposal needs, and what is not accepted.
+  - name: Questions and open discussion
+    url: https://github.com/citycomputingcollective/citycomputingcollective.github.io/discussions
+    about: For questions, ideas, and collaboration requests, use the City Computing Collective discussions.

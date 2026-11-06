@@ -1,0 +1,39 @@
+name: "Request data or an indicator"
+description: "Describe data or an indicator you need. Requests help decide what is documented and released next."
+title: "Data request: "
+labels: ["data-request"]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: "What you need"
+      description: "The variables or measure, and the question it would help answer."
+    validations:
+      required: true
+  - type: input
+    id: geography
+    attributes:
+      label: "Geography and spatial unit"
+      placeholder: "e.g. census tracts in two cities"
+    validations:
+      required: true
+  - type: input
+    id: period
+    attributes:
+      label: "Time period"
+    validations:
+      required: true
+  - type: textarea
+    id: use
+    attributes:
+      label: "Intended use"
+      description: "How the data would be used, by whom, and any constraints on licence or access."
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: "Known sources"
+      description: "Any sources you already know of, and why they are not enough."
+    validations:
+      required: false

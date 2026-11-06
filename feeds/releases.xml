@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>UrbanProbe releases</title><link>https://urbanprobe.com/</link><description>New and updated entries on UrbanProbe.</description><language>en</language>
+<atom:link href="https://urbanprobe.com/feeds/releases.xml" rel="self" type="application/rss+xml"/>
+</channel>
+</rss>

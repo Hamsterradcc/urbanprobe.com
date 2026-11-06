@@ -1,0 +1,27 @@
+name: "Correct a resource or the standard"
+description: "Report an error in a published resource, a broken link, or a problem with the standard itself."
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: input
+    id: target
+    attributes:
+      label: "What needs correcting"
+      description: "The resource id or page URL, or the section of the standard."
+      placeholder: "https://urbanprobe.com/entry.html?registry=...&id=..."
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: "The problem"
+      description: "What is wrong, and how you found it. Include evidence where you can."
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: "Proposed correction"
+      description: "What it should say instead, if you know."
+    validations:
+      required: false

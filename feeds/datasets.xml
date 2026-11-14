@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>UrbanProbe datasets</title><link>https://urbanprobe.com/datasets.html</link><description>New and updated datasets on UrbanProbe.</description><language>en</language>
+<atom:link href="https://urbanprobe.com/feeds/datasets.xml" rel="self" type="application/rss+xml"/>
+</channel>
+</rss>

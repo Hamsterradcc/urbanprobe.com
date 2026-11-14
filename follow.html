@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Follow UrbanProbe</title>
+  <meta name="description" content="Choose what to follow on UrbanProbe, then how to receive it: email, a feed reader or GitHub. No account on this site is needed.">
+  <link rel="canonical" href="https://urbanprobe.com/follow.html">
+  <meta name="theme-color" content="#183328">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="UrbanProbe">
+  <meta property="og:title" content="Follow UrbanProbe">
+  <meta property="og:description" content="Choose what to follow on UrbanProbe, then how to receive it: email, a feed reader or GitHub. No account on this site is needed.">
+  <meta property="og:url" content="https://urbanprobe.com/follow.html">
+  <meta property="og:image" content="https://urbanprobe.com/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="UrbanProbe: Observe. Measure. Understand. Datasets, indicators, and methods with provenance.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23183328'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23ccebd8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5793c'/%3E%3C/svg%3E">
+  <link rel="alternate" type="application/rss+xml" title="UrbanProbe releases" href="feeds/releases.xml">
+  <link rel="stylesheet" href="assets/follow.css">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header>
+    <div class="nav">
+      <a class="brand" href="index.html">Urban<i>Probe</i></a>
+      <button class="nav-search" type="button" data-palette hidden aria-label="Search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><span>Search</span><kbd>Ctrl K</kbd></button>
+      <a class="nav-follow" href="follow.html" aria-current="page" aria-label="Follow updates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></a>
+      <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
+      <nav id="site-nav" aria-label="Primary">
+        <a href="datasets.html">Datasets</a>
+        <a href="indicators.html">Indicators</a>
+        <a href="methods.html">Methods</a>
+        <a href="standards.html">Standards</a>
+        <a class="cta" href="https://github.com/Hamsterradcc/urbanprobe.com">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="page-hero">
+      <div>
+        <div class="eyebrow">Follow</div>
+        <h1>Follow UrbanProbe.</h1>
+        <p class="lead">Choose what you want to hear about, then how you want to receive it. Nothing here needs an account on this site.</p>
+      </div>
+      <aside class="note">
+        <strong>How it works</strong>
+        <p>Each item has a Follow button. It opens a short list of ways to receive that item: email, a feed reader, or GitHub. The raw feed address is also shown, in case the button does not work.</p>
+      </aside>
+    </div>
+
+    <section id="what">
+      <div class="eyebrow">What you can follow</div>
+      <h2>Choose what to follow.</h2>
+      <p class="intro">UrbanProbe is a registry. A new item appears when an entry is released, updated or deprecated, so the feeds are quiet most of the time. If a feed is empty today, follow it anyway: the first item will reach you when it appears.</p>
+
+      <h3 class="fw-h">All releases, or one registry</h3>
+      <!-- build:follow registries -->
+      <ul class="fw-list">
+        <li class="fw-item">
+          <div class="fw-text"><h4>All UrbanProbe releases</h4><p>Every new and updated entry in all three registries. Low volume: an item appears only when an entry is released, updated or deprecated.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/releases.xml" aria-label="Follow All UrbanProbe releases" data-follow-title="All UrbanProbe releases" data-follow-what="Every new and updated release." data-follow-feed="feeds/releases.xml" data-follow-github="https://github.com/Hamsterradcc/urbanprobe.com" data-follow-github-kind="releases" data-follow-newsletter="true"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/releases.xml" aria-label="Feed address for All UrbanProbe releases">Feed address</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Datasets</h4><p>New and updated datasets only. An item appears when a dataset is released, updated or deprecated.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/datasets.xml" aria-label="Follow Datasets" data-follow-title="Datasets" data-follow-what="New and updated datasets." data-follow-feed="feeds/datasets.xml" data-follow-github="https://github.com/Hamsterradcc/urbanprobe.com" data-follow-github-kind="releases"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/datasets.xml" aria-label="Feed address for Datasets">Feed address</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Indicators</h4><p>New and updated indicators only. An item appears when an indicator is released, updated or deprecated.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/indicators.xml" aria-label="Follow Indicators" data-follow-title="Indicators" data-follow-what="New and updated indicators." data-follow-feed="feeds/indicators.xml" data-follow-github="https://github.com/Hamsterradcc/urbanprobe.com" data-follow-github-kind="releases"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/indicators.xml" aria-label="Feed address for Indicators">Feed address</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Methods</h4><p>New and updated methods only. An item appears when a method is released, updated or deprecated.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/methods.xml" aria-label="Follow Methods" data-follow-title="Methods" data-follow-what="New and updated methods." data-follow-feed="feeds/methods.xml" data-follow-github="https://github.com/Hamsterradcc/urbanprobe.com" data-follow-github-kind="releases"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/methods.xml" aria-label="Feed address for Methods">Feed address</a>
+          </div>
+        </li>
+      </ul>
+      <!-- /build:follow registries -->
+
+      <h3 class="fw-h">One research theme on this site</h3>
+      <p class="fw-note">The same eight research themes are used on all four network sites. Each Follow button below follows this site only. “Whole network” follows the same theme on every site, including the discussions on City Computing Collective.</p>
+      <!-- build:follow themes -->
+      <ul class="fw-list">
+        <li class="fw-item">
+          <div class="fw-text"><h4>Mobility &amp; Transportation</h4><p>Entries on UrbanProbe tagged with this theme. Low volume.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/theme-mobility.xml" aria-label="Follow Mobility &amp; Transportation" data-follow-title="Mobility &amp; Transportation" data-follow-what="New and updated UrbanProbe entries tagged with this theme." data-follow-feed="feeds/theme-mobility.xml"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/theme-mobility.xml" aria-label="Feed address for Mobility &amp; Transportation">Feed address</a>
+    <a class="fw-raw" href="https://urbanscience.ai/feeds/theme-mobility.xml" aria-label="Whole network: Mobility &amp; Transportation" data-follow data-follow-title="Mobility &amp; Transportation across the network" data-follow-what="Discussions and releases from all the network sites that are tagged with this theme." data-follow-feed="https://urbanscience.ai/feeds/theme-mobility.xml">Whole network</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Built Environment &amp; Land Use</h4><p>Entries on UrbanProbe tagged with this theme. Low volume.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/theme-built-environment.xml" aria-label="Follow Built Environment &amp; Land Use" data-follow-title="Built Environment &amp; Land Use" data-follow-what="New and updated UrbanProbe entries tagged with this theme." data-follow-feed="feeds/theme-built-environment.xml"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/theme-built-environment.xml" aria-label="Feed address for Built Environment &amp; Land Use">Feed address</a>
+    <a class="fw-raw" href="https://urbanscience.ai/feeds/theme-built-environment.xml" aria-label="Whole network: Built Environment &amp; Land Use" data-follow data-follow-title="Built Environment &amp; Land Use across the network" data-follow-what="Discussions and releases from all the network sites that are tagged with this theme." data-follow-feed="https://urbanscience.ai/feeds/theme-built-environment.xml">Whole network</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Housing &amp; Urban Economics</h4><p>Entries on UrbanProbe tagged with this theme. Low volume.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/theme-housing.xml" aria-label="Follow Housing &amp; Urban Economics" data-follow-title="Housing &amp; Urban Economics" data-follow-what="New and updated UrbanProbe entries tagged with this theme." data-follow-feed="feeds/theme-housing.xml"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/theme-housing.xml" aria-label="Feed address for Housing &amp; Urban Economics">Feed address</a>
+    <a class="fw-raw" href="https://urbanscience.ai/feeds/theme-housing.xml" aria-label="Whole network: Housing &amp; Urban Economics" data-follow data-follow-title="Housing &amp; Urban Economics across the network" data-follow-what="Discussions and releases from all the network sites that are tagged with this theme." data-follow-feed="https://urbanscience.ai/feeds/theme-housing.xml">Whole network</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Climate, Energy &amp; Resilience</h4><p>Entries on UrbanProbe tagged with this theme. Low volume.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/theme-climate.xml" aria-label="Follow Climate, Energy &amp; Resilience" data-follow-title="Climate, Energy &amp; Resilience" data-follow-what="New and updated UrbanProbe entries tagged with this theme." data-follow-feed="feeds/theme-climate.xml"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/theme-climate.xml" aria-label="Feed address for Climate, Energy &amp; Resilience">Feed address</a>
+    <a class="fw-raw" href="https://urbanscience.ai/feeds/theme-climate.xml" aria-label="Whole network: Climate, Energy &amp; Resilience" data-follow data-follow-title="Climate, Energy &amp; Resilience across the network" data-follow-what="Discussions and releases from all the network sites that are tagged with this theme." data-follow-feed="https://urbanscience.ai/feeds/theme-climate.xml">Whole network</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Health, Equity &amp; Accessibility</h4><p>Entries on UrbanProbe tagged with this theme. Low volume.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/theme-health-equity.xml" aria-label="Follow Health, Equity &amp; Accessibility" data-follow-title="Health, Equity &amp; Accessibility" data-follow-what="New and updated UrbanProbe entries tagged with this theme." data-follow-feed="feeds/theme-health-equity.xml"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/theme-health-equity.xml" aria-label="Feed address for Health, Equity &amp; Accessibility">Feed address</a>
+    <a class="fw-raw" href="https://urbanscience.ai/feeds/theme-health-equity.xml" aria-label="Whole network: Health, Equity &amp; Accessibility" data-follow data-follow-title="Health, Equity &amp; Accessibility across the network" data-follow-what="Discussions and releases from all the network sites that are tagged with this theme." data-follow-feed="https://urbanscience.ai/feeds/theme-health-equity.xml">Whole network</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Urban Sensing &amp; Spatial Data</h4><p>Entries on UrbanProbe tagged with this theme. Low volume.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/theme-sensing.xml" aria-label="Follow Urban Sensing &amp; Spatial Data" data-follow-title="Urban Sensing &amp; Spatial Data" data-follow-what="New and updated UrbanProbe entries tagged with this theme." data-follow-feed="feeds/theme-sensing.xml"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/theme-sensing.xml" aria-label="Feed address for Urban Sensing &amp; Spatial Data">Feed address</a>
+    <a class="fw-raw" href="https://urbanscience.ai/feeds/theme-sensing.xml" aria-label="Whole network: Urban Sensing &amp; Spatial Data" data-follow data-follow-title="Urban Sensing &amp; Spatial Data across the network" data-follow-what="Discussions and releases from all the network sites that are tagged with this theme." data-follow-feed="https://urbanscience.ai/feeds/theme-sensing.xml">Whole network</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Governance &amp; Participation</h4><p>Entries on UrbanProbe tagged with this theme. Low volume.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/theme-governance.xml" aria-label="Follow Governance &amp; Participation" data-follow-title="Governance &amp; Participation" data-follow-what="New and updated UrbanProbe entries tagged with this theme." data-follow-feed="feeds/theme-governance.xml"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/theme-governance.xml" aria-label="Feed address for Governance &amp; Participation">Feed address</a>
+    <a class="fw-raw" href="https://urbanscience.ai/feeds/theme-governance.xml" aria-label="Whole network: Governance &amp; Participation" data-follow data-follow-title="Governance &amp; Participation across the network" data-follow-what="Discussions and releases from all the network sites that are tagged with this theme." data-follow-feed="https://urbanscience.ai/feeds/theme-governance.xml">Whole network</a>
+          </div>
+        </li>
+        <li class="fw-item">
+          <div class="fw-text"><h4>Urban AI &amp; Simulation</h4><p>Entries on UrbanProbe tagged with this theme. Low volume.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="feeds/theme-urban-ai.xml" aria-label="Follow Urban AI &amp; Simulation" data-follow-title="Urban AI &amp; Simulation" data-follow-what="New and updated UrbanProbe entries tagged with this theme." data-follow-feed="feeds/theme-urban-ai.xml"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="feeds/theme-urban-ai.xml" aria-label="Feed address for Urban AI &amp; Simulation">Feed address</a>
+    <a class="fw-raw" href="https://urbanscience.ai/feeds/theme-urban-ai.xml" aria-label="Whole network: Urban AI &amp; Simulation" data-follow data-follow-title="Urban AI &amp; Simulation across the network" data-follow-what="Discussions and releases from all the network sites that are tagged with this theme." data-follow-feed="https://urbanscience.ai/feeds/theme-urban-ai.xml">Whole network</a>
+          </div>
+        </li>
+      </ul>
+      <!-- /build:follow themes -->
+
+      <h3 class="fw-h">One entry</h3>
+      <p class="fw-note">Every entry page has its own Follow button, next to the buttons at the top of the page, named “Follow this dataset”, “Follow this indicator” and so on. It follows that entry only: new versions, a deprecation notice if there is one, and for benchmarks every new leaderboard result. Open any dataset, indicator or method in a registry to find it.</p>
+
+      <h3 class="fw-h">Weekly network digest</h3>
+      <!-- build:follow digest -->
+      <ul class="fw-list">
+        <li class="fw-item">
+          <div class="fw-text"><h4>Weekly network digest</h4><p>One summary a week of the new discussions, open calls, events and releases across the four network sites. A digest is published only after a week with activity.</p></div>
+          <div class="fw-actions">
+            <a class="follow-btn" data-follow href="https://urbanscience.ai/feeds/digest.xml" aria-label="Follow Weekly network digest" data-follow-title="Weekly network digest" data-follow-what="A weekly summary of the whole network." data-follow-feed="https://urbanscience.ai/feeds/digest.xml" data-follow-newsletter="true"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow</span></a>
+            <a class="fw-raw" href="https://urbanscience.ai/feeds/digest.xml" aria-label="Feed address for Weekly network digest">Feed address</a>
+          </div>
+        </li>
+      </ul>
+      <!-- /build:follow digest -->
+    </section>
+
+    <section id="channels">
+      <div class="eyebrow">How the channels work</div>
+      <h2>Four ways to receive updates.</h2>
+      <ul class="fw-channels">
+        <li><p><strong>Email:</strong> Blogtrottr, a free third-party service, can email you each new item. It shows ads, and every email has an unsubscribe link.</p></li>
+        <li><p><strong>Feed reader:</strong> apps such as Feedly collect updates from many sites in one place. Copy the address and add it to your reader.</p></li>
+        <li><p><strong>Calendar:</strong> subscribe once and new events appear in your calendar by themselves. Google Calendar can take up to a day to show changes.</p></li>
+        <li><p><strong>GitHub:</strong> if you have a GitHub account, open the repository, choose Watch, then Custom, and tick Releases. GitHub then notifies you of every new release.</p></li>
+      </ul>
+      <p class="fw-note">UrbanProbe has no calendar of its own. The events and deadlines calendars are on <a href="https://citycomputingcollective.com/follow.html" rel="noopener">City Computing Collective</a>.</p>
+    </section>
+
+    <section id="stop">
+      <div class="eyebrow">Stop following</div>
+      <h2>You can leave at any time.</h2>
+      <p class="intro">Each service keeps its own list, so you stop in the same place where you started.</p>
+      <ul class="fw-channels">
+        <li><p><strong>Email:</strong> every email has an unsubscribe link. Use it.</p></li>
+        <li><p><strong>Feed reader:</strong> remove the feed from your reader.</p></li>
+        <li><p><strong>Calendar:</strong> remove the calendar from your calendar app.</p></li>
+        <li><p><strong>GitHub:</strong> open the repository, choose Watch, and choose Unwatch.</p></li>
+      </ul>
+      <p class="fw-privacy">This site does not store anything about you. Email and reader services are run by the companies named here.</p>
+    </section>
+  </main>
+
+
+  <footer>
+    <p class="network-title" id="network-title">Open urban research network</p>
+    <ul class="network" aria-labelledby="network-title">
+        <li><a href="https://urbanscience.ai"><strong>Urban Science AI Lab</strong><span>Research agenda</span></a></li>
+        <li><div class="here"><strong>UrbanProbe</strong><span>Data, indicators &amp; methods</span><small>This site</small></div></li>
+        <li><a href="https://xurbanai.com"><strong>XUrbanAI</strong><span>Models, agents &amp; benchmarks</span></a></li>
+        <li><a href="https://citycomputingcollective.com"><strong>City Computing Collective</strong><span>Community &amp; collaboration</span></a></li>
+    </ul>
+    <div class="footer-base">
+      <span>&copy; 2026 UrbanProbe &middot; A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
+      <div class="links"><a href="standards.html">Resource standard</a><a href="follow.html">Follow</a><a href="https://github.com/Hamsterradcc/urbanprobe.com">Repository</a></div>
+    </div>
+  </footer>
+  <script src="assets/follow.js"></script>
+  <script src="assets/site.js"></script>
+  <script src="assets/palette.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+name: GitHub releases
+
+# Creates one GitHub Release for every released entry in data/registry.json, so people can follow
+# the registry with GitHub Watch. Safe to run again: releases that exist are skipped, nothing is
+# edited or deleted. Run it by hand with "Run workflow" to catch up.
+on:
+  push:
+    branches: [main]
+    paths:
+      - data/registry.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: releases
+  cancel-in-progress: false
+
+jobs:
+  releases:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install jsonschema
+        run: pip install "jsonschema>=4.18"
+      - name: Registry data is valid
+        run: python scripts/validate.py
+      - name: Create missing releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/releases.py

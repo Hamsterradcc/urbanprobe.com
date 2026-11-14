@@ -14,10 +14,28 @@
 
   // ------------------------------------------------------------------ helpers
   const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(url); return r.json(); });
+  // The script's own URL gives the site root. Pages that can sit at any depth (the 404 page) mark <html data-root>
+  // and then every relative data and page address is resolved from that root.
+  const SCRIPT_SRC = document.currentScript && document.currentScript.src;
+  const ROOT = (() => { try { return new URL('../', SCRIPT_SRC).href; } catch (e) { return ''; } })();
+  const fromRoot = document.documentElement.hasAttribute('data-root') && !!ROOT;
+  const isRelative = (href) => !/^([a-z][a-z0-9+.-]*:|#|\/\/)/i.test(href);
+  const getJSON = (url) => fetch(fromRoot ? ROOT + url : url, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(url); return r.json(); });
   const plural = (n, one, many) => `${n} ${n === 1 ? one : (many || one + 's')}`;
   const fmtDate = (iso) => { if (!iso) return ''; const d = new Date(iso + 'T00:00:00'); return isNaN(d) ? iso : d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }); };
-  const link = (href) => (!example || /^(https?:|#)/.test(href) ? href : href + (href.includes('?') ? '&' : '?') + 'src=example');
+  // Adds src=example to an address. Safe to call twice, and keeps any #fragment at the end.
+  const withSrc = (href) => {
+    if (/[?&]src=/.test(href)) return href;
+    const [path, hash] = href.split(/(?=#)/);
+    return path + (path.includes('?') ? '&' : '?') + 'src=example' + (hash || '');
+  };
+  // Registry data is untrusted text: only http(s), protocol-relative, fragment and site-relative addresses are kept.
+  const safeHref = (href) => { href = String(href == null ? '' : href); return isRelative(href) || /^(https?:|\/\/|#)/i.test(href) ? href : '#'; };
+  const link = (href) => {
+    if (!isRelative(href)) return safeHref(href);
+    const out = fromRoot ? ROOT + href : href;
+    return example ? withSrc(out) : out;
+  };
   const visible = (list) => (list || []).filter((e) => e && e.status !== 'draft');
   const byNewest = (a, b) => String(b.updated || b.released || '').localeCompare(String(a.updated || a.released || '')) || String(a.title).localeCompare(String(b.title));
   function prose(text) {
@@ -27,10 +45,33 @@
       return '<p>' + safe + '</p>';
     }).join('');
   }
-  function copy(text, btn) {
-    const done = () => { const t = btn.textContent; btn.textContent = 'Copied'; setTimeout(() => { btn.textContent = t; }, 1500); };
-    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, () => {});
+  // A visually hidden status line, so screen reader users hear that a copy worked.
+  const live = document.createElement('p');
+  live.className = 'visually-hidden';
+  live.setAttribute('role', 'status');
+  document.body.appendChild(live);
+  function announce(text) { live.textContent = ''; setTimeout(() => { live.textContent = text; }, 60); setTimeout(() => { live.textContent = ''; }, 3000); }
+  function copy(text, btn, said) {
+    btn.dataset.label = btn.dataset.label || btn.textContent;
+    const done = () => { btn.textContent = 'Copied'; announce(said || 'Copied'); setTimeout(() => { btn.textContent = btn.dataset.label; }, 1500); };
+    const fallback = () => {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta); ta.select();
+      let ok = false; try { ok = document.execCommand('copy'); } catch (e) { /* ignore */ }
+      ta.remove();
+      if (ok) done();
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
   }
+  // Sets or creates one tag in <head>.
+  function headTag(selector, make, set) {
+    let el = document.head.querySelector(selector);
+    if (!el) { el = make(); document.head.appendChild(el); }
+    set(el);
+  }
+  const metaTag = (attr, name, content) => headTag(`meta[${attr}="${name}"]`, () => { const m = document.createElement('meta'); m.setAttribute(attr, name); return m; }, (m) => m.setAttribute('content', content));
+  const noindex = () => metaTag('name', 'robots', 'noindex');
 
   // ------------------------------------------------------------------ mobile nav
   const toggle = document.querySelector('.nav-toggle');
@@ -64,11 +105,43 @@
       relations: schema['x-relations'] || {},
     };
   });
-  window.REG = { ready, esc, link, example, CCC };
+  window.REG = { ready, esc, link, example, CCC, root: ROOT };
 
   if (example) {
-    const robots = document.createElement('meta'); robots.name = 'robots'; robots.content = 'noindex'; document.head.appendChild(robots);
+    noindex();
+    // Preview mode must survive navigation: give every same-site page link src=example, now and whenever links are added.
+    const keep = (a) => {
+      const raw = a.getAttribute('href');
+      if (!raw || raw[0] === '#' || a.hasAttribute('download')) return;
+      let u; try { u = new URL(raw, location.href); } catch (e) { return; }
+      if (u.origin !== location.origin || /\/(feeds|data|assets)\//.test(u.pathname) || /\.(xml|ics|json|csv|png)$/.test(u.pathname) || u.searchParams.has('src')) return;
+      a.setAttribute('href', withSrc(raw));
+    };
+    const sweep = (root) => { if (root.matches && root.matches('a[href]')) keep(root); if (root.querySelectorAll) root.querySelectorAll('a[href]').forEach(keep); };
+    sweep(document);
+    new MutationObserver((list) => list.forEach((m) => m.addedNodes.forEach((n) => { if (n.nodeType === 1) sweep(n); }))).observe(document.documentElement, { childList: true, subtree: true });
   }
+
+  // ------------------------------------------------------------------ "new since your last visit"
+  // The previous visit time comes from localStorage and is read once per browser tab session, so every page in one
+  // session compares against the same moment. Nothing is shown on a first visit or when storage is blocked.
+  const visit = (() => {
+    const key = 'lastVisit' + (example ? ':example' : '');
+    let prev = 0;
+    try {
+      const base = sessionStorage.getItem('visitBaseline:' + key);
+      if (base !== null) prev = +base || 0;
+      else { prev = +localStorage.getItem(key) || 0; sessionStorage.setItem('visitBaseline:' + key, String(prev)); }
+    } catch (e) { /* storage blocked */ }
+    const save = () => { try { localStorage.setItem(key, String(Date.now())); } catch (e) { /* storage blocked */ } };
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') save(); });
+    addEventListener('pagehide', save);
+    // A corrupted stored value (not a number, in the future, or out of range) counts as "no previous visit".
+    let day = '';
+    try { if (Number.isFinite(prev) && prev > 0 && prev < Date.now() + 864e5) day = new Date(prev).toISOString().slice(0, 10); } catch (e) { day = ''; }
+    return { isNew: (e) => !!day && e.status === 'released' && !!e.released && e.released > day };
+  })();
+  const newBadge = (e) => (visit.isNew(e) ? ' <span class="new-badge">New</span>' : '');
 
   const entryHref = (regKey, e) => link(e.url || `entry.html?registry=${encodeURIComponent(regKey)}&id=${encodeURIComponent(e.id)}`);
   const refHref = (ctx, ref) => (ref.site && ref.site !== ctx.siteKey
@@ -77,6 +150,14 @@
   const findEntry = (ctx, registry, id) => (ctx.data[registry] || []).find((x) => x.id === id && x.status !== 'draft');
   const themeChip = (ctx, slug) => { const t = ctx.theme[slug]; return t ? `<a class="tag theme" href="${CCC}/theme.html?t=${t.slug}" title="Theme hub on the City Computing Collective">${esc(t.label)}</a>` : ''; };
   const asList = (v) => (Array.isArray(v) ? v : v ? [v] : []);
+  // follow.js lets links activate natively, and a link does not react to Space. Triggers styled as buttons should.
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key !== ' ' || ev.defaultPrevented || ev.altKey || ev.ctrlKey || ev.metaKey || ev.shiftKey) return;
+    const a = ev.target && ev.target.closest && ev.target.closest('a[data-follow]');
+    if (a && a === ev.target) { ev.preventDefault(); a.click(); }
+  });
+  const bell = () => (window.Follow && window.Follow.icon) || '';
+  const feedUrl = (name) => new URL('feeds/' + name, ROOT || location.href).href;
 
   function facts(ctx, e, opts = {}) {
     const items = [];
@@ -103,7 +184,7 @@
       if (rows.length) {
         latest.querySelector('[data-slot="list"]').innerHTML = rows.map(({ reg, e }) => `
           <a class="entry" href="${esc(entryHref(reg.key, e))}">
-            <div><span class="entry-kind">${esc(reg.singular)}</span><h3>${esc(e.title)}</h3><p>${esc(e.summary)}</p></div>
+            <div><span class="entry-kind">${esc(reg.singular)}</span><h3>${esc(e.title)}${newBadge(e)}</h3><p>${esc(e.summary)}</p></div>
             <span class="badge">v${esc(e.version || '')} · ${esc(fmtDate(e.updated || e.released))}</span>
           </a>`).join('');
         latest.hidden = false;
@@ -128,6 +209,7 @@
       return { ...f, values };
     }).filter((f) => f.values.length);
     const label = (f, v) => (f.key === 'themes' ? ctx.theme[v]?.label || v : v);
+    const newN = entries.filter((e) => visit.isNew(e)).length;
     const state = { q: params.get('q') || '', sort: ['new', 'az', 'updated'].includes(params.get('sort')) ? params.get('sort') : 'new', sel: {} };
     facets.forEach((f) => { state.sel[f.key] = new Set((params.get(f.key) || '').split(',').filter((v) => f.values.includes(v))); });
 
@@ -177,12 +259,12 @@
       const activeN = facets.reduce((s, f) => s + state.sel[f.key].size, 0);
       const act = $('[data-slot="active"]'); if (act) act.textContent = activeN ? `(${activeN})` : '';
       const active = activeN > 0 || !!state.q.trim();
-      $('.reg-count').textContent = active ? `${plural(shown.length, 'entry', 'entries')} of ${entries.length}` : plural(entries.length, 'entry', 'entries');
+      $('.reg-count').textContent = (active ? `${plural(shown.length, 'entry', 'entries')} of ${entries.length}` : plural(entries.length, 'entry', 'entries')) + (newN ? ` · ${newN} new since your last visit` : '');
       $('.reg-clear').hidden = !active;
       list.innerHTML = shown.length ? shown.map((e) => `
         <a class="entry" href="${esc(entryHref(reg.key, e))}">
           <div>
-            <h3>${esc(e.title)}</h3><p>${esc(e.summary)}</p>
+            <h3>${esc(e.title)}${newBadge(e)}</h3><p>${esc(e.summary)}</p>
             ${facts(ctx, e, { short: true }) ? `<div class="facts compact">${facts(ctx, e, { short: true })}</div>` : ''}
             ${(e.themes || []).length ? `<div class="tags">${e.themes.map((t) => `<span class="tag">${esc(ctx.theme[t]?.label || t)}</span>`).join('')}</div>` : ''}
           </div>
@@ -205,7 +287,7 @@
       if (cb.checked) state.sel[key].add(cb.value); else state.sel[key].delete(cb.value);
       render();
     });
-    const reset = () => { state.q = ''; input.value = ''; facets.forEach((f) => state.sel[f.key].clear()); mount.querySelectorAll('.facet input').forEach((cb) => { cb.checked = false; }); render(); };
+    const reset = () => { state.q = ''; input.value = ''; facets.forEach((f) => state.sel[f.key].clear()); mount.querySelectorAll('.facet input').forEach((cb) => { cb.checked = false; }); render(); input.focus(); };
     $('.reg-clear').addEventListener('click', reset);
     mount.addEventListener('click', (e) => { if (e.target.closest('[data-clear]')) reset(); });
     render();
@@ -213,7 +295,11 @@
 
   // ------------------------------------------------------------------ entry page
   const page = document.querySelector('[data-entry]');
-  if (page) ready.then(renderEntry).catch(() => notFound(null));
+  if (page) {
+    ready.then((ctx) => {
+      try { renderEntry(ctx); } catch (err) { console.error(err); renderError(ctx); }
+    }, (err) => { console.error(err); renderError(null); });
+  }
 
   function slot(name) { return page.querySelector(`[data-slot="${name}"]`); }
 
@@ -228,7 +314,22 @@
     return { title, desc };
   }
 
+  function renderError(ctx) {
+    const repo = ctx && ctx.site && ctx.site.repo;
+    slot('eyebrow').textContent = 'Registry entry';
+    slot('title').textContent = 'This entry could not be displayed.';
+    slot('summary').textContent = 'Something went wrong while showing it. The entry may exist, so this is not the same as a missing page.';
+    slot('facts').innerHTML = '';
+    slot('tags').innerHTML = '';
+    slot('links').innerHTML = (repo ? `<a class="button" href="${esc(repo)}/issues/new?template=correction.yml" rel="noopener">Report this problem ↗</a>` : '') + `<a class="button" href="${esc(link('index.html'))}">Home</a>`;
+    slot('sections').innerHTML = '';
+    slot('toc').hidden = true;
+    slot('release').hidden = true;
+    document.title = 'Entry could not be displayed';
+  }
+
   function notFound(reg, siteName) {
+    noindex();
     slot('eyebrow').textContent = reg ? `Registry ${reg.number} / ${reg.label}` : 'Registry entry';
     slot('title').textContent = 'Entry not found.';
     slot('summary').textContent = 'No public entry matches this address. It may still be a draft, or the link may be wrong.';
@@ -244,8 +345,24 @@
     if (!e) return notFound(reg, ctx.site.name);
     const one = reg.singular;
     nav?.querySelector(`a[href="${reg.page}"]`)?.setAttribute('aria-current', 'page');
+    const canonical = `${ctx.site.url}/entry.html?registry=${reg.key}&id=${e.id}`;
     document.title = `${e.title} — ${reg.label} — ${ctx.site.name}`;
-    document.querySelector('meta[name="description"]')?.setAttribute('content', e.summary);
+    metaTag('name', 'description', e.summary);
+    metaTag('property', 'og:title', document.title);
+    metaTag('property', 'og:description', e.summary);
+    metaTag('property', 'og:url', canonical);
+    metaTag('name', 'twitter:title', document.title);
+    metaTag('name', 'twitter:description', e.summary);
+    headTag('link[rel="canonical"]', () => { const l = document.createElement('link'); l.rel = 'canonical'; return l; }, (l) => { l.href = canonical; });
+    const followable = e.status === 'released' || e.status === 'deprecated';
+    // build.py writes entry feeds only for the real registry. A preview (?src=example) entry has no feed, so it gets none.
+    const hasFeed = followable && !example;
+    const entryFeed = `entry-${reg.key}-${e.id}.xml`;
+    if (hasFeed) {
+      const alt = document.createElement('link');
+      alt.rel = 'alternate'; alt.type = 'application/rss+xml'; alt.title = `${e.title} updates`; alt.href = `feeds/${entryFeed}`;
+      document.head.appendChild(alt);
+    }
     if (example) slot('banner').hidden = false;
 
     slot('eyebrow').innerHTML = `<a href="${esc(link(reg.page))}">Registry ${esc(reg.number)} / ${esc(reg.label)}</a>`;
@@ -256,7 +373,7 @@
     slot('links').innerHTML = (e.links || []).map((l, i) => {
       const ext = /^https?:\/\//.test(l.href);
       return `<a class="button${i === 0 ? ' solid primary' : ''}" href="${esc(ext ? l.href : link(l.href))}"${ext ? ' rel="noopener"' : ''}>${esc(l.label)}${ext ? ' ↗' : ''}</a>`;
-    }).join('');
+    }).join('') + (followable ? `<button type="button" class="follow-btn" data-follow data-follow-title="${esc(e.title)}" data-follow-what="New versions, a deprecation notice if there is one${reg.key === 'benchmarks' ? ', and every new leaderboard result' : ''}." ${hasFeed ? ` data-follow-feed="${esc(feedUrl(entryFeed))}"` : ''} data-follow-github="${esc(ctx.site.repo || '')}" data-follow-github-kind="releases">${bell()}<span>Follow this ${esc(one)}</span></button>` : '');
     slot('meta').innerHTML = [['Status', e.status], ['Version', e.version ? 'v' + e.version : ''], ['Released', fmtDate(e.released)], ['Updated', fmtDate(e.updated)],
       ['Licence', e.license], ['Access', e.access], ['Authors', (e.authors || []).join(', ')]].filter((r) => r[1]).map((r) => `<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join('');
     slot('status').hidden = false;
@@ -291,7 +408,7 @@
     if (e.variables?.length) sections.push(['variables', 'Variables', 'Variables', `<div class="table-wrap"><table class="dict"><thead><tr><th>Name</th><th>Type</th><th>Unit</th><th>Description</th></tr></thead><tbody>${e.variables.map((v) => `<tr><td><code>${esc(v.name)}</code></td><td>${esc(v.type)}</td><td>${esc(v.unit || '')}</td><td>${esc(v.description)}</td></tr>`).join('')}</tbody></table></div>`]);
     if (e.distributions?.length) sections.push(['files', 'Files', 'Files', `<ul class="files">${e.distributions.map((d) => {
       const ext = /^https?:/.test(d.href);
-      return `<li><span class="format">${esc(d.format)}</span><a href="${esc(d.href)}"${ext ? ' rel="noopener"' : ' download'}>${esc(d.label || d.href.split('/').pop())}${ext ? ' ↗' : ''}</a>${d.size ? `<small>${esc(d.size)}</small>` : ''}</li>`;
+      return `<li><span class="format">${esc(d.format)}</span><a href="${esc(safeHref(d.href))}"${ext ? ' rel="noopener"' : ' download'}>${esc(d.label || d.href.split('/').pop())}${ext ? ' ↗' : ''}</a>${d.size ? `<small>${esc(d.size)}</small>` : ''}</li>`;
     }).join('')}</ul>`]);
     // usage
     if (e.usage) sections.push(['use', 'Use', reg.key === 'methods' ? 'Run this method' : `Use this ${one}`, `<div class="code-block"><button type="button" class="copy-btn" data-copy-usage>Copy</button><pre><code>${esc(e.usage)}</code></pre></div>`]);
@@ -322,7 +439,7 @@
       const url = `${ctx.site.url}/entry.html?registry=${reg.key}&id=${e.id}`;
       const bib = [`@misc{${key},`, `  title = {${e.title}},`, e.authors?.length ? `  author = {${e.authors.join(' and ')}},` : '', year ? `  year = {${year}},` : '',
         e.version ? `  version = {${e.version}},` : '', `  howpublished = {${ctx.site.name}, ${reg.label} registry},`, e.doi ? `  doi = {${e.doi}},` : '', `  url = {${url}}`, '}'].filter(Boolean).join('\n');
-      sections.push(['cite', 'Cite', `Cite this ${one}`, `<div class="cite-tabs" role="tablist" aria-label="Citation format"><button type="button" role="tab" aria-selected="true" data-cite="text">Text</button><button type="button" role="tab" aria-selected="false" data-cite="bibtex">BibTeX</button></div>
+      sections.push(['cite', 'Cite', `Cite this ${one}`, `<div class="cite-tabs" role="group" aria-label="Citation format"><button type="button" aria-pressed="true" data-cite="text">Text</button><button type="button" aria-pressed="false" data-cite="bibtex">BibTeX</button></div>
         <div class="code-block"><button type="button" class="copy-btn" data-copy-cite>Copy</button><pre class="cite" data-cite-text>${esc(e.citation)}</pre><pre class="cite" data-cite-bibtex hidden>${esc(bib)}</pre></div>`]);
     }
 
@@ -330,21 +447,33 @@
     slot('toc').innerHTML = sections.map(([idv, short]) => `<a href="#${idv}">${esc(short)}</a>`).join('');
     slot('toc').hidden = sections.length < 2;
     tocSpy();
+    regions();
+    addEventListener('resize', () => { clearTimeout(regions.t); regions.t = setTimeout(regions, 150); });
 
     if (e.leaderboard?.results?.length) leaderboard(slot('board'), ctx, e);
     if (e.preview) preview(slot('preview'), e);
     page.addEventListener('click', (ev) => {
-      if (ev.target.closest('[data-copy-usage]')) copy(e.usage, ev.target.closest('button'));
+      if (ev.target.closest('[data-copy-usage]')) copy(e.usage, ev.target.closest('button'), 'Usage snippet copied');
       const tab = ev.target.closest('[data-cite]');
       if (tab) {
-        page.querySelectorAll('[data-cite]').forEach((b) => b.setAttribute('aria-selected', String(b === tab)));
+        page.querySelectorAll('[data-cite]').forEach((b) => b.setAttribute('aria-pressed', String(b === tab)));
         page.querySelector('[data-cite-text]').hidden = tab.dataset.cite !== 'text';
         page.querySelector('[data-cite-bibtex]').hidden = tab.dataset.cite !== 'bibtex';
       }
-      if (ev.target.closest('[data-copy-cite]')) copy(page.querySelector('.cite:not([hidden])').textContent, ev.target.closest('button'));
+      if (ev.target.closest('[data-copy-cite]')) copy(page.querySelector('.cite:not([hidden])').textContent, ev.target.closest('button'), 'Citation copied');
     });
     if (location.hash) document.getElementById(location.hash.slice(1))?.scrollIntoView();
     jsonld(ctx, reg, e);
+  }
+
+  // A table that scrolls sideways must be reachable by keyboard, so it becomes a labelled region only when it overflows.
+  function regions() {
+    page.querySelectorAll('.table-wrap').forEach((w) => {
+      if (w.scrollWidth > w.clientWidth + 1) {
+        const h = w.closest('.entry-section')?.querySelector('h2')?.textContent || 'Data';
+        w.setAttribute('tabindex', '0'); w.setAttribute('role', 'region'); w.setAttribute('aria-label', `${h} table`);
+      } else { w.removeAttribute('tabindex'); w.removeAttribute('role'); w.removeAttribute('aria-label'); }
+    });
   }
 
   // highlight the section in view, as documentation sites do
@@ -355,7 +484,7 @@
     const io = new IntersectionObserver((items) => {
       items.forEach((it) => {
         if (!it.isIntersecting) return;
-        links.forEach((a) => a.toggleAttribute('aria-current', a.getAttribute('href') === '#' + it.target.id));
+        links.forEach((a) => { if (a.getAttribute('href') === '#' + it.target.id) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
       });
     }, { rootMargin: '-30% 0px -60% 0px' });
     page.querySelectorAll('.entry-section').forEach((s) => io.observe(s));
@@ -364,8 +493,16 @@
   function leaderboard(el, ctx, e) {
     const { metrics, results } = e.leaderboard;
     const state = { key: metrics[0].key, verifiedOnly: false };
-    const fmt = (m, v) => (v == null ? '—' : Number(v).toFixed(m.decimals ?? 2) + (m.unit || ''));
-    function draw() {
+    const fmt = (m, v) => (v == null ? '—' : Number(v).toFixed(m.decimals ?? 2) + esc(m.unit || ''));
+    el.innerHTML = `
+      <div class="board-tools"><p data-board-note></p>
+        <label class="check"><input type="checkbox" data-verified> Verified only</label></div>
+      <p class="visually-hidden" role="status" data-board-status></p>
+      <div data-board-table></div>`;
+    const note = el.querySelector('[data-board-note]');
+    const status = el.querySelector('[data-board-status]');
+    const holder = el.querySelector('[data-board-table]');
+    function draw(say) {
       const m = metrics.find((x) => x.key === state.key);
       const rows = results.filter((r) => !state.verifiedOnly || r.verified !== false);
       const dir = m.higher_is_better ? -1 : 1;
@@ -378,13 +515,13 @@
       });
       const vals = rows.map((r) => r.scores[m.key]).filter((v) => v != null);
       const lo = Math.min(...vals), hi = Math.max(...vals);
-      el.innerHTML = `
-        <div class="board-tools"><p>Sorted by <b>${esc(m.label)}</b>, ${m.higher_is_better ? 'higher is better' : 'lower is better'}. Select a column to re-rank. Baselines are shown for reference and not ranked.</p>
-          <label class="check"><input type="checkbox" ${state.verifiedOnly ? 'checked' : ''} data-verified> Verified only</label></div>
+      note.innerHTML = `Sorted by <b>${esc(m.label)}</b>, ${m.higher_is_better ? 'higher is better' : 'lower is better'}. Select a column to re-rank. Baselines are shown for reference and not ranked.`;
+      if (say) status.textContent = `Showing ${plural(rows.length, 'system')}, sorted by ${m.label}`;
+      holder.innerHTML = `
         <div class="table-wrap"><table class="board"><thead><tr><th>#</th><th>System</th>${metrics.map((mm) => `<th aria-sort="${mm.key === state.key ? (mm.higher_is_better ? 'descending' : 'ascending') : 'none'}"><button type="button" data-metric="${esc(mm.key)}">${esc(mm.label)} <span aria-hidden="true">${mm.higher_is_better ? '↑' : '↓'}</span></button></th>`).join('')}<th>Date</th></tr></thead>
         <tbody>${rows.map((r) => {
           const rank = ranked.indexOf(r) + 1;
-          const sys = r.system_ref ? `<a href="${esc(refHref(ctx, r.system_ref))}">${esc(r.system)}</a>` : (r.link ? `<a href="${esc(r.link)}" rel="noopener">${esc(r.system)} ↗</a>` : esc(r.system));
+          const sys = r.system_ref ? `<a href="${esc(refHref(ctx, r.system_ref))}">${esc(r.system)}</a>` : (r.link ? `<a href="${esc(safeHref(r.link))}" rel="noopener">${esc(r.system)} ↗</a>` : esc(r.system));
           const tags = `${r.baseline ? ' <span class="pill">baseline</span>' : ''}${r.verified === false ? ' <span class="pill warn">unverified</span>' : r.verified ? ' <span class="pill ok" title="Reproduced from the released artifacts">verified</span>' : ''}`;
           return `<tr class="${r.baseline ? 'is-baseline' : ''}${rank === 1 ? ' is-top' : ''}"><td class="rank">${rank || '—'}</td><td class="sys">${sys}${tags}${r.notes ? `<small>${esc(r.notes)}</small>` : ''}</td>${metrics.map((mm) => {
             const v = r.scores[mm.key];
@@ -393,10 +530,11 @@
             return `<td class="num${isBest ? ' best' : ''}${mm.key === state.key ? ' sorted' : ''}">${bar}<span>${fmt(mm, v)}</span></td>`;
           }).join('')}<td class="date">${esc(fmtDate(r.date))}</td></tr>`;
         }).join('')}</tbody></table></div>`;
+      regions();
     }
-    el.addEventListener('click', (ev) => { const b = ev.target.closest('[data-metric]'); if (b) { state.key = b.dataset.metric; draw(); el.querySelector(`[data-metric="${CSS.escape(state.key)}"]`)?.focus(); } });
-    el.addEventListener('change', (ev) => { if (ev.target.matches('[data-verified]')) { state.verifiedOnly = ev.target.checked; draw(); } });
-    draw();
+    el.addEventListener('click', (ev) => { const b = ev.target.closest('[data-metric]'); if (b) { state.key = b.dataset.metric; draw(true); holder.querySelector(`[data-metric="${CSS.escape(state.key)}"]`)?.focus(); } });
+    el.addEventListener('change', (ev) => { if (ev.target.matches('[data-verified]')) { state.verifiedOnly = ev.target.checked; draw(true); } });
+    draw(false);
   }
 
   function parseCSV(text) {
@@ -445,6 +583,7 @@
           ? (c.year ? `${spark(c.bins)}<span>${c.min} – ${c.max}</span>` : `${spark(c.bins)}<span>${nfmt(c.min, c.max >= 10000)} – ${nfmt(c.max, c.max >= 10000)}</span><span>mean ${nfmt(c.mean, c.max >= 10000)}</span>`)
           : `<span>${plural(c.unique, 'value')}</span>${c.top ? `<span>top: ${esc(c.top[0])}</span>` : ''}`}${c.missing ? `<span class="miss">${c.missing} missing</span>` : ''}</div></th>`).join('')}</tr></thead>
         <tbody>${shown.map((r) => `<tr>${head.map((_, j) => `<td class="${cols[j].numeric ? 'num' : ''}">${r[j] === '' || r[j] == null ? '<span class="null">null</span>' : esc(r[j])}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      regions();
     }).catch(() => { el.innerHTML = `<p class="preview-note">The sample could not be shown here. <a href="${esc(url)}">Download it</a> instead.</p>`; });
   }
 

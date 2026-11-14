@@ -19,6 +19,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23183328'/%3E%3Ccircle cx='32' cy='32' r='16' fill='none' stroke='%23ccebd8' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23e5793c'/%3E%3C/svg%3E">
   <link rel="alternate" type="application/rss+xml" title="UrbanProbe releases" href="feeds/releases.xml">
+  <link rel="alternate" type="application/rss+xml" title="UrbanProbe methods" href="feeds/methods.xml">
+  <link rel="stylesheet" href="assets/follow.css">
   <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -27,6 +29,7 @@
     <div class="nav">
       <a class="brand" href="index.html">Urban<i>Probe</i></a>
       <button class="nav-search" type="button" data-palette hidden aria-label="Search"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><span>Search</span><kbd>Ctrl K</kbd></button>
+      <a class="nav-follow" href="follow.html" aria-label="Follow updates"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></a>
       <button class="nav-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
       <nav id="site-nav" aria-label="Primary">
         <a href="datasets.html">Datasets</a>
@@ -44,6 +47,7 @@
         <div class="eyebrow">Registry 03 / Methods</div>
         <h1>Reproducible workflows.</h1>
         <p class="lead">Code and methods that connect raw observations to defensible urban measures. A method enters this registry when it runs end to end from documented inputs to a checked output.</p>
+        <div class="actions"><a class="follow-btn" data-follow data-follow-title="UrbanProbe methods" data-follow-what="New and updated methods, and deprecations." data-follow-feed="feeds/methods.xml" data-follow-github="https://github.com/Hamsterradcc/urbanprobe.com" data-follow-github-kind="releases" href="follow.html"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Follow methods</span></a></div>
       </div>
       <aside class="note">
         <strong>Resource standard</strong>
@@ -59,9 +63,10 @@
         <div class="empty">
           <div>
             <strong>No public entries yet.</strong>
-            <p>Methods are listed here once a release meets the standard. Follow the repository for releases, or propose a method through an issue.</p>
+            <p>Methods are listed here once a release meets the standard. Be told when the first one is added. You can also <a href="https://github.com/Hamsterradcc/urbanprobe.com" rel="noopener">follow the repository</a> on GitHub, or propose a method through an issue.</p>
           </div>
           <div class="actions">
+            <a class="follow-btn" data-follow data-follow-title="UrbanProbe methods" data-follow-what="New and updated methods, and deprecations." data-follow-feed="feeds/methods.xml" data-follow-github="https://github.com/Hamsterradcc/urbanprobe.com" data-follow-github-kind="releases" href="follow.html"><svg class="follow-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span>Get notified when the first method is released</span></a>
             <a class="button" href="https://github.com/Hamsterradcc/urbanprobe.com/issues/new?template=method-entry.yml">Propose a method</a>
           </div>
         </div>
@@ -110,9 +115,10 @@
     </ul>
     <div class="footer-base">
       <span>&copy; 2026 UrbanProbe &middot; A project by <a href="https://yuxuancai.com">Yuxuan Cai</a></span>
-      <div class="links"><a href="standards.html">Resource standard</a><a href="https://github.com/Hamsterradcc/urbanprobe.com">Repository</a></div>
+      <div class="links"><a href="standards.html">Resource standard</a><a href="follow.html">Follow</a><a href="https://github.com/Hamsterradcc/urbanprobe.com">Repository</a></div>
     </div>
   </footer>
+  <script src="assets/follow.js"></script>
   <script src="assets/site.js"></script>
   <script src="assets/palette.js"></script>
 </body>

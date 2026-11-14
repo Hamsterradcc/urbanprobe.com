@@ -193,7 +193,7 @@
         },
         {
           "label": "First version",
-          "href": "entry.html?registry=indicators&id=example-indicator-v1&src=example"
+          "href": "entry.html?registry=indicators&id=example-indicator-v1"
         }
       ],
       "citation": "Author One (2026). Example indicator entry, version 2.0.0. UrbanProbe.",

@@ -12,7 +12,9 @@
     field: '<path d="M4 6h12M4 10h8M4 14h10"/>',
     theme: '<circle cx="10" cy="10" r="6.5"/><circle cx="10" cy="10" r="2.5"/>',
     action: '<path d="M10 4v12M4 10h12"/>',
+    follow: '<path d="M5 8a5 5 0 0 1 10 0c0 5.5 2.5 7 2.5 7h-15S5 13.5 5 8"/><path d="M8.5 17.5a1.7 1.7 0 0 0 3 0"/>',
   };
+  const an = (word) => (/^[aeiou]/i.test(word) ? 'an' : 'a');
   const icon = (k) => `<svg viewBox="0 0 20 20" aria-hidden="true">${ICON[k]}</svg>`;
 
   document.querySelectorAll('[data-palette]').forEach((b) => {
@@ -71,10 +73,16 @@
         fields.push({ kind: 'field', title: title || key, sub: `${r.singular} card · ${key}`, href: `standards.html#${r.key}`, extra: key });
       }));
       const themes = Object.values(ctx.theme).map((t) => ({ kind: 'theme', title: t.label, sub: 'Theme hub on the City Computing Collective', href: `${R.CCC}/theme.html?t=${t.slug}`, external: true }));
+      const feed = (name) => new URL('feeds/' + name, R.root || location.href).href;
+      const follows = [
+        { kind: 'follow', title: 'Follow all releases', sub: 'By email, feed reader or GitHub', href: 'follow.html', follow: { title: `${ctx.site.name} releases`, what: 'Every new and updated release.', feed: feed('releases.xml'), github: repo, githubKind: 'releases', newsletter: true } },
+        ...ctx.registries.map((r) => ({ kind: 'follow', title: `Follow ${r.label.toLowerCase()}`, sub: `New and updated ${r.label.toLowerCase()}`, href: 'follow.html', follow: { title: `${ctx.site.name} ${r.label.toLowerCase()}`, what: `New and updated ${r.label.toLowerCase()}.`, feed: feed(r.key + '.xml'), github: repo, githubKind: 'releases' } })),
+        { kind: 'follow', title: 'All ways to follow', sub: 'Every feed, by theme and registry', href: 'follow.html' },
+      ];
       const actions = [
-        ...ctx.registries.map((r) => ({ kind: 'action', title: `Propose a ${r.singular}`, sub: 'Opens the proposal form on GitHub', href: `${repo}/issues/new?template=${r.template}`, external: true })),
+        ...follows,
+        ...ctx.registries.map((r) => ({ kind: 'action', title: `Propose ${an(r.singular)} ${r.singular}`, sub: 'Opens the proposal form on GitHub', href: `${repo}/issues/new?template=${r.template}`, external: true })),
         { kind: 'action', title: 'Report a correction', sub: 'An error in an entry or in the standard', href: `${repo}/issues/new?template=correction.yml`, external: true },
-        { kind: 'action', title: 'Subscribe to releases (RSS)', sub: 'feeds/releases.xml', href: 'feeds/releases.xml' },
       ];
       return { entries, pages, fields, themes, actions };
     });
@@ -92,7 +100,13 @@
   }
 
   async function render() {
-    const src = await loadSources();
+    let src;
+    try { src = await loadSources(); } catch (err) {
+      sources = null; items = [];
+      list.innerHTML = '<div class="palette-empty"><strong>Search is unavailable here.</strong><p>Open the home page and try again.</p></div>';
+      input.removeAttribute('aria-activedescendant'); input.setAttribute('aria-expanded', 'false');
+      return;
+    }
     const terms = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     const pick = (arr, n) => arr.map((x) => [x, score(x, terms)]).filter(([, s]) => s > 0).sort((a, b) => b[1] - a[1]).slice(0, n).map(([x]) => x);
     const groups = terms.length
@@ -114,6 +128,8 @@
       html = `<div class="palette-empty"><strong>No results for “${esc(q)}”.</strong><p>Nothing in the registries or the standard matches.</p></div>`;
     }
     list.innerHTML = html;
+    input.setAttribute('aria-expanded', String(items.length > 0));
+    if (!items.length) input.removeAttribute('aria-activedescendant');
     setActive(0, false);
   }
 
@@ -127,6 +143,11 @@
 
   function run(item, newTab) {
     if (!item) return;
+    if (item.follow && window.Follow && !newTab) {
+      dialog.close();
+      setTimeout(() => window.Follow.open(item.follow), 0);
+      return;
+    }
     const href = item.external ? item.href : link(item.href);
     if (newTab) { window.open(href, '_blank', 'noopener'); return; }
     dialog.close();
